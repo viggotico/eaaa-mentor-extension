@@ -1,12 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: white;
+  --text: black;
+  --link: rgb(50, 50, 50);
+
+  --main-color-steel-gray: #808b94;
+  --main-color-teel-green: #80b4bf;
+
+  --secondary-color-jade-green: #3a646d;
+  --secondary-color-shy-green: #bed4db;
+  --secondary-color-butter-yellow: #f4ebc0;
+  --secondary-color-canary-yellow: #f0e87d;
+  --secondary-color-quiet-gray: #f3f4f7;
+
+  --tertiary-color-crocus-petal: #b99bc5;
+  --tertiary-color-ultra-violet: #5f4c8c;
+  --tertiary-color-sargossa-green: #35435a;
+  --tertiary-color-nebulas-blue: #2c63a4;
+  --tertiary-color-iris: #0087b1;
+  --tertiary-color-seafoam: #a2c5bf;
+  --tertiary-color-moss: #84b18f;
+  --tertiary-color-martini-olive: #716a4d;
+  --tertiary-color-ceylon-yellow: #d4ae41;
+  --tertiary-color-russet-orange: #e47125;
+  --tertiary-color-valliant-poppy: #bd322c;
+  --tertiary-color-mellow-rose: #d9a6a1;
+  --tertiary-color-red-pear: #8f5442;
+  --tertiary-color-meerkat: #a46f44;
+  --tertiary-color-almond-buff: #ccb390;
+  --tertiary-color-tofu: #e8e3d8;
+
+  --padding-common: clamp(80px, 6.25vw, 120px);
+  --padding-vertical: var(--padding-common);
+  --padding-horizontal: var(--padding-common);
+  --padding-banner: 60px;
+
+  --main-max-width: 1920px;
+  --main-max-height: 1080px;
+
+  --card-box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (max-width: 960px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --padding-horizontal: 30px;
+    --padding-vertical: 60px;
+    --padding-common: 80px;
+    --padding-banner: 60px 30px;
   }
 }
 
@@ -14,14 +55,24 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-size: 1.5vw;
+  line-height: 1.5;
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", serif;
+  text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 960px) {
+  html,
+  body {
+    font-size: 1rem;
+  }
 }
 
 * {
@@ -31,12 +82,60 @@ body {
 }
 
 a {
-  color: inherit;
+  color: var(--link);
   text-decoration: none;
+  transition: color .2s ease-in-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1, h2, h3, h4, h5, h6 {
+  word-wrap: break-word;
+  hyphens: auto;
+  line-height: 1cap;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 1.4em;
+}
+
+h2 {
+  font-size: 1.7em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+h4 {
+  font-size: 2.3em;
+}
+
+h5 {
+  font-size: 2.6em;
+}
+
+h6 {
+  font-size: 2.9em;
+}
+
+p {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: .875em;
+  line-height: 1.5cap;
+}
+
+.section {
+  width: 100%;
+  min-height: calc(100vh - (var(--padding-common) * 2));
+  padding: var(--padding-common);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }

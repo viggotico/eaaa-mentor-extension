@@ -1,0 +1,100 @@
+.layout {
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: var(--main-max-width);
+  min-height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 40vh;
+}
+
+@media (min-width: 960px) {
+  .mainContent {
+    margin: 0 var(--padding-common);
+  }
+}
+
+.mainHeader {
+  background-color: #fff;
+  height: var(--padding-common);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header {
+  background-color: var(--background);
+  display: flex;
+  height: var(--padding-common);
+  position: relative;
+  transition: top .3s ease-in-out;
+  width: 100%;
+}
+
+.headerLogoLink {
+  align-items: center;
+  display: flex;
+  height: 80px;
+  margin-top: calc(var(--padding-common) / 2 - 40px);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.headerLogoLink img {
+  height: 63px;
+  max-width: 100%;
+}
+
+.headerSticky {
+  position: fixed;
+  height: 0;
+  margin: 0 auto;
+  max-width: var(--main-max-width);
+  top: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.headerLeft {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 0;
+  background-color: hsla(0, 0%, 100%, .95);
+  height: var(--padding-common);
+}
+
+.headerRight {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  margin-left: auto;
+  right: 0;
+  background-color: hsla(0, 0%, 100%, .95);
+  height: var(--padding-common);
+}
+
+.headerIcon {
+  align-items: center;
+  background-color: #f3f4f7;
+  border: none;
+  border-radius: 50%;
+  color: #02626c;
+  cursor: pointer;
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 56px;
+  width: 56px;
+  justify-content: center;
+  margin: 0 calc(var(--padding-common)/2 - 28px);
+  position: relative;
+}

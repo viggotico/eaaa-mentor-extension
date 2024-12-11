@@ -1,0 +1,20 @@
+.sectionInner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 60px);
+    min-height: 200px;
+    height: fit-content;
+    background-color: var(--background);
+    padding: 30px;
+}
+
+.sectionInnerCaption {
+    display: block;
+    pointer-events: none;
+    min-height: 100px;
+    z-index: 10;
+    position: absolute;
+    bottom: 30px;
+}
