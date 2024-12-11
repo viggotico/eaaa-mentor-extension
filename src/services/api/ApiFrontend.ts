@@ -83,9 +83,9 @@ export class ApiFrontend {
     // methods
 
     static auth = {
-        register: async (data: UserRegisterPostData) => api.post<User>('/auth/register', data).then(res => res.data),
-        login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => res.data),
-        loginAuto: async () => api.get<User>('/auth/session').then(res => res.data),
+        register: async (data: UserRegisterPostData) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
+        login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => this.currentUser = res.data),
+        loginAuto: async () => api.get<User>('/auth/session').then(res => this.currentUser = res.data),
         logout: async () => {
             const canLogout = api.get<boolean>('/auth/logout').then(res => res.data);
             if (!canLogout) return false;
