@@ -10,6 +10,10 @@ export interface ChatMessage extends CommonApi {
     type: User['type'];
 }
 
+export type ChatMessageSimple = Omit<ChatMessage,
+| 'mentorChat'
+| 'menteeChat'>;
+
 export interface ChatMessagePostData extends Omit<ChatMessage, CommonApiIgnore
 | 'mentorChat' | 'menteeChat'> {
     mentorChat: RelationSingle;

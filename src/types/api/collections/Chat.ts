@@ -1,13 +1,13 @@
-import { ChatMessage } from "./ChatMessage";
+import { ChatMessageSimple } from "./ChatMessage";
 import { CommonApi, CommonApiIgnore } from "../common/CommonApi";
 import { RelationSingle, RelationMany } from "../common/RelationApi";
-import { User } from "./User";
+import { UserSimple } from "./User";
 
 export interface Chat extends CommonApi {
-    mentor: User;
-    mentee: User;
-    mentorMessages: ChatMessage[];
-    menteeMessages: ChatMessage[];
+    mentor: UserSimple;
+    mentee: UserSimple;
+    mentorMessages: ChatMessageSimple[];
+    menteeMessages: ChatMessageSimple[];
 }
 
 export interface ChatPostData extends Omit<Chat, CommonApiIgnore

@@ -31,7 +31,7 @@ const api: AxiosInstance = axios.create({
 const stringifyQuery = (obj: object | undefined) =>
     obj ? `${qs.stringify(obj, { encodeValuesOnly: true })}` : undefined;
 
-const getQuery = (obj: object | undefined) => obj ? `?${stringifyQuery(obj)}` : '';
+const getQuery = (obj: object | undefined) => obj ? `?${stringifyQuery(obj)}&populate=*` : '?populate=*';
 
 const parseFilters = (query: string) => {
     const filters = qs.parse(query);

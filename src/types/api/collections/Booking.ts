@@ -1,10 +1,10 @@
 import { CommonApi, CommonApiIgnore } from "../common/CommonApi";
 import { RelationSingle } from "../common/RelationApi";
-import { MeetingType, User } from "./User";
+import { MeetingType, UserSimple } from "./User";
 
 export interface Booking extends CommonApi {
-    mentor: User;
-    mentee: User;
+    mentor: UserSimple;
+    mentee: UserSimple;
     date: string;
     confirmed: boolean;
     rejected: boolean;
