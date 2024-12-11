@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   description: "EAAA",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en">
+    <html lang="dk">
       <body>
         <div className={styles.layout}>
           <header className={styles.mainHeader}>
