@@ -34,13 +34,20 @@ export const handleRequest = async (req: NextRequest, callback: ({ data, searchP
         }
         const searchParams = req.nextUrl.searchParams;
         const res = await callback({ data, searchParams });
-        // console.log(`${getTime()} ${req.method} ${req.url} ${res.status} ${res.statusText}`);
+        res.headers.set('Accept', 'application/json');
+        res.headers.set('Content-Type', 'application/json');
         return res;
     } catch (err: any) {
         console.error(`${getTime()} ${req.method} ${req.url}`, err);
         return new Response(JSON.stringify({
             status: err.response.status,
             message: err.response.statusText,
-        }), { status: err.status });
+        }), {
+            status: err.status,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
     }
 }

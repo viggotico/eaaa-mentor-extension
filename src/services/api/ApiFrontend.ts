@@ -20,6 +20,7 @@ const api: AxiosInstance = axios.create({
         `${process.env.NEXT_PUBLIC_FRONTEND_URL_LOCAL}/api/v1`,
     withCredentials: true,
     headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
 });

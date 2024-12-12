@@ -24,6 +24,7 @@ const api: AxiosInstance = axios.create({
         `${process.env.BACKEND_URL_LOCAL}/api`,
     withCredentials: true,
     headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
 });

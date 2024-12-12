@@ -53,10 +53,7 @@ export interface UserPostData extends Omit<User, CommonApiIgnore
 
 export interface UserLoginRegisterResponse {
     jwt: string;
-    user: {
-        id: number;
-        username: string;
-    };
+    user: User;
 }
 
 export interface UserLoginPostData {
