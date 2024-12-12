@@ -54,7 +54,7 @@ export class ApiBackend {
     
     private static getAuthHeader = ({ request, token }: { request?: NextRequest, token?: string }) => {
         const tokenValue = token ?? (request ? this.getToken(request)?.value : undefined);
-        return tokenValue ? ({ headers: { Authorization: tokenValue } } as AxiosRequestConfig) : {};
+        return tokenValue ? ({ headers: { Authorization: `Bearer ${tokenValue}` } } as AxiosRequestConfig) : {};
     }
 
     private static getSelf = async ({ request, token }: { request?: NextRequest, token?: string }, query?: object) =>
