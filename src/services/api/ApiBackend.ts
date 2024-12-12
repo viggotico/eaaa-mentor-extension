@@ -50,6 +50,7 @@ const parseCookieToken = (value: string | undefined) => {
 export class ApiBackend {
     private static verbose = true;
     private static mutationForceDataProperty = false;
+    private static useDocumentIdInsteadOfId = false;
 
     private static getToken = (request: NextRequest, checkHeader?: boolean) => {
         const cookieToken = parseCookieToken(request.cookies.get('token')?.value);
@@ -184,7 +185,7 @@ export class ApiBackend {
                         const newData = { ...data } as any;
                         delete data.password;
     
-                        const newUser = await this.users.update(request, user.id, {
+                        const newUser = await this.users.update(request, this.useDocumentIdInsteadOfId ? user.documentId: user.id, {
                             ...newData,
                             confirmed: true,
                             name: data.name?.trim(),
