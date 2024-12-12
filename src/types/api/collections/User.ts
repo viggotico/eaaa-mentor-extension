@@ -30,22 +30,16 @@ export interface User extends CommonApi {
     skills: string;
     subject: string;
     type: 'Mentor' | 'Mentee';
-    mentorChats: Omit<Chat, 'documentId'>[];
-    menteeChats: Omit<Chat, 'documentId'>[];
+    mentorChats: Chat[];
+    menteeChats: Chat[];
     uddannelse: UddannelseType;
     semester: string;
     acceptingMentees: boolean;
-    mentorBookings: Omit<Booking, 'documentId'>[];
-    menteeBookings: Omit<Booking, 'documentId'>[];
+    mentorBookings: Booking[];
+    menteeBookings: Booking[];
     meetingType: MeetingType;
     availability: AvailabilityComponent[];
 }
-
-export type UserSimple = Omit<User,
-| 'mentorChats'
-| 'menteeChats'
-| 'mentorBookings'
-| 'menteeBookings'>;
 
 export interface UserPostData extends Omit<User, CommonApiIgnore
 | 'role' | 'mentorChats' | 'menteeChats' | 'mentorBookings' | 'menteeBookings' | 'availability'> {

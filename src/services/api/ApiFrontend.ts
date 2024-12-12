@@ -40,29 +40,29 @@ export class ApiFrontend {
     private static getUsersAll = (type?: User['type']) =>
         (this.findDocuments<User[], UserPostData>('/users', { type }) as unknown) as Promise<User[]>;
 
-    private static getDocument = async <T>(endpoint: string, documentId: string, query?: object) =>
-        api.get<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`).then(res => res.data);
+    private static getDocument = async <T>(endpoint: string, id: string | number, query?: object) =>
+        api.get<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`).then(res => res.data);
     private static getDocuments = async <T>(endpoint: string, query?: object, find?: boolean) =>
         api.get<ResponseApi<T>>(`${endpoint}${find ? '/find' : ''}${getQuery(query)}`).then(res => res.data);
 
     private static createDocument = async <T, TData>(endpoint: string, data?: Partial<TData>, query?: object) =>
         api.post<ResponseApi<T>>(`${endpoint}${getQuery(query)}`, data).then(res => res.data);
 
-    private static updateDocument = async <T, TData>(endpoint: string, documentId: string, data?: Partial<TData>, query?: object) =>
-        api.put<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`, data).then(res => res.data);
+    private static updateDocument = async <T, TData>(endpoint: string, id: string | number, data?: Partial<TData>, query?: object) =>
+        api.put<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`, data).then(res => res.data);
 
-    private static updateDocuments = async <T, TData>(endpoint: string, documentIds: string[], data?: Partial<TData>[], query?: object) => {
+    private static updateDocuments = async <T, TData>(endpoint: string, ids: (string | number)[], data?: Partial<TData>[], query?: object) => {
         const promises: Promise<ResponseApi<T>>[] = [];
-        for (let i = 0; i < documentIds.length; i++) promises.push(this.updateDocument<T, TData>(endpoint, documentIds[i], data?.[i], query));
+        for (let i = 0; i < ids.length; i++) promises.push(this.updateDocument<T, TData>(endpoint, ids[i], data?.[i], query));
         return Promise.all(promises);
     }
 
-    private static deleteDocument = async <T>(endpoint: string, documentId: string, query?: object) =>
-        api.delete<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`).then(res => res.data);
+    private static deleteDocument = async <T>(endpoint: string, id: string | number, query?: object) =>
+        api.delete<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`).then(res => res.data);
 
-    private static deleteDocuments = async <T>(endpoint: string, documentIds: string[], query?: object) => {
+    private static deleteDocuments = async <T>(endpoint: string, ids: (string | number)[], query?: object) => {
         const promises: Promise<ResponseApi<T>>[] = [];
-        for (const documentId of documentIds) promises.push(this.deleteDocument(endpoint, documentId, query));
+        for (const id of ids) promises.push(this.deleteDocument(endpoint, id, query));
         return Promise.all(promises);
     }
 
@@ -70,14 +70,14 @@ export class ApiFrontend {
         this.getDocuments<T>(endpoint, { filters: parseFilters(filters) }, true);
 
     private static wrapper = <T, TData>(endpoint: string) => ({
-        get: (documentId: string) => this.getDocument<T>(endpoint, documentId),
+        get: (id: string | number) => this.getDocument<T>(endpoint, id),
         getAll: () => this.getDocuments<T[]>(endpoint),
         find: (filters: Partial<TData>) => this.findDocuments<T[], TData>(endpoint, filters),
         create: (data: Partial<TData>) => this.createDocument<T, TData>(endpoint, data),
-        update: (documentId: string, data: Partial<TData>) => this.updateDocument<T, TData>(endpoint, documentId, data),
-        delete: (documentId: string) => this.deleteDocument<T>(endpoint, documentId),
-        bulkUpdate: (documentId: string[], data: Partial<TData>[]) => this.updateDocuments<T, TData>(endpoint, documentId, data),
-        bulkDelete: (documentId: string[]) => this.deleteDocuments<T>(endpoint, documentId),
+        update: (id: string | number, data: Partial<TData>) => this.updateDocument<T, TData>(endpoint, id, data),
+        delete: (id: string | number) => this.deleteDocument<T>(endpoint, id),
+        bulkUpdate: (id: (string | number)[], data: Partial<TData>[]) => this.updateDocuments<T, TData>(endpoint, id, data),
+        bulkDelete: (id: (string | number)[]) => this.deleteDocuments<T>(endpoint, id),
     });
 
     // methods
@@ -114,19 +114,19 @@ export class ApiFrontend {
     }
 
     static users = {
-        get: (documentId: string) => (this.getDocument<User>('/users', documentId) as unknown) as Promise<User>,
+        get: (id: string | number) => (this.getDocument<User>('/users', id) as unknown) as Promise<User>,
         getAll: () => this.getUsersAll(),
         find: (filters: Partial<UserPostData>) => (this.findDocuments<User[], UserPostData>('/users', filters) as unknown) as Promise<User[]>,
     
         getMentors: () => this.getUsersAll('Mentor'),
         getMentees: () => this.getUsersAll('Mentee'),
     
-        update: (documentId: string, data: Partial<UserPostData>) =>
-            (this.updateDocument<User, UserPostData>('/users', documentId, data) as unknown) as Promise<User>,
-        bulkUpdate: (documentId: string[], data: Partial<UserPostData>[]) =>
-            (this.updateDocuments<User, UserPostData>('/users', documentId, data) as unknown) as Promise<User[]>,
-        bulkDelete: (documentId: string[]) =>
-            (this.deleteDocuments<User>('/users', documentId) as unknown) as Promise<User[]>,
+        update: (id: string | number, data: Partial<UserPostData>) =>
+            (this.updateDocument<User, UserPostData>('/users', id, data) as unknown) as Promise<User>,
+        bulkUpdate: (id: (string | number)[], data: Partial<UserPostData>[]) =>
+            (this.updateDocuments<User, UserPostData>('/users', id, data) as unknown) as Promise<User[]>,
+        bulkDelete: (id: (string | number)[]) =>
+            (this.deleteDocuments<User>('/users', id) as unknown) as Promise<User[]>,
     }
 
     static chats = this.wrapper<Chat, ChatPostData>('/chats');

@@ -9,6 +9,19 @@ const getTime = () => {
     return `[${hours}:${mins}:${seconds}:${milliseconds}]`;
 }
 
+export interface Params {
+    params: Promise<{
+        id?: string;
+    }>;
+}
+
+export const getParamsId = async (params: Params['params']) => {
+    const { id } = await params;
+    if (!id) throw new Error('Invalid id');
+    return id;
+    
+}
+
 export const handleRequest = async (req: NextRequest, callback: ({ data, searchParams }: { data?: any, searchParams: URLSearchParams }) => Promise<Response>) => {
     try {
         let data: any;

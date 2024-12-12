@@ -12,8 +12,9 @@ export const ProfilePage = async ({ params }: SingleItem) => {
     return <NotFoundPage />;
   }
 
-  const ownProfile = ApiFrontend.currentUser?.documentId === id;
-  const user = await ApiFrontend.users.get(id);
+  const idParsed = parseInt(id);
+  const ownProfile = ApiFrontend.currentUser?.id === idParsed;
+  const user = await ApiFrontend.users.get(idParsed);
 
   if (!user) { // vent til at profilen er fetched fra databasen
     // alle andre APIs returnere en data og meta object men det gør users ikke

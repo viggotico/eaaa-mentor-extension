@@ -1,15 +1,15 @@
 type RelationManyShortHand = string[];
 interface RelationManyLongHand {
-    documentId: string;
+    id: string | number;
     position?: {
-        before?: string;
-        after?: string;
+        before?: string | number;
+        after?: string | number;
         start?: boolean;
         end?: boolean;
     }
 }
 
-export type RelationSingle = string | undefined;
+export type RelationSingle = string | number | undefined;
 export interface RelationMany {
     connect: RelationManyShortHand | RelationManyLongHand[];
     disconnect: RelationManyShortHand | RelationManyLongHand[];

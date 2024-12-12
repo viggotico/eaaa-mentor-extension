@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
         if (!email) throw new Error('Invalid email.');
         if (!password) throw new Error('Invalid password.');
         let resPlaceholder = new Response(null, { status: 200 });
-        const res = await ApiBackend.auth.login(resPlaceholder, email, password);
+        const res = await ApiBackend.auth.login(req, resPlaceholder, email, password);
         return new Response(JSON.stringify(res), { headers: resPlaceholder.headers });
     });
 }

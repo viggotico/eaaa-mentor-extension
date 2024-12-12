@@ -31,7 +31,7 @@ const api: AxiosInstance = axios.create({
 const stringifyQuery = (obj: object | undefined) =>
     obj ? `${qs.stringify(obj, { encodeValuesOnly: true })}` : undefined;
 
-const getQuery = (obj: object | undefined) => obj ? `?${stringifyQuery(obj)}&populate=*` : '?populate=*';
+const getQuery = (obj: object | undefined) => obj ? `?${stringifyQuery(obj)}${Object.keys(obj).includes('populate') ? '' : '&populate=*'}` : '?populate=*';
 
 const parseFilters = (query: string) => {
     const filters = qs.parse(query);
@@ -40,9 +40,21 @@ const parseFilters = (query: string) => {
     return obj;
 }
 
+const parseCookieToken = (value: string | undefined) => {
+    if (!value) return undefined;
+    if (value.includes('token=')) return value.split('; ')[0].split('=')[1];
+    return value;
+}
+
 export class ApiBackend {
     private static verbose = true;
-    private static getToken = (request: NextRequest) => request.cookies.get('token');
+    private static mutationForceDataProperty = false;
+
+    private static getToken = (request: NextRequest, checkHeader?: boolean) => {
+        const cookieToken = parseCookieToken(request.cookies.get('token')?.value);
+        if (!checkHeader) return cookieToken;
+        return (request.headers?.get('Authorization') ?? request.headers?.get('authorization'))?.split(' ')[1] ?? cookieToken;
+    }
     private static removeToken = (request: NextRequest) => request.cookies.delete('token');
     private static setToken = (response: Response, token: string) => {
         const maxAge = 2592000; // 30 days
@@ -53,7 +65,7 @@ export class ApiBackend {
     }
     
     private static getAuthHeader = ({ request, token }: { request?: NextRequest, token?: string }) => {
-        const tokenValue = token ?? (request ? this.getToken(request)?.value : undefined);
+        const tokenValue = token ?? (request ?  this.getToken(request, true) : undefined);
         return tokenValue ? ({ headers: { Authorization: `Bearer ${tokenValue}` } } as AxiosRequestConfig) : {};
     }
 
@@ -63,29 +75,29 @@ export class ApiBackend {
     private static getUsersAll = (type?: User['type']) =>
         (this.findDocuments<User[]>('/users', stringifyQuery(type ? { type } : undefined)) as unknown) as Promise<User[]>;
 
-    private static getDocument = async <T>(endpoint: string, documentId: string, query?: object) =>
-        api.get<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`).then(res => res.data);
+    private static getDocument = async <T>(endpoint: string, id: string | number, query?: object) =>
+        api.get<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`).then(res => res.data);
     private static getDocuments = async <T>(endpoint: string, query?: object) =>
         api.get<ResponseApi<T>>(`${endpoint}${getQuery(query)}`).then(res => res.data);
 
-    private static createDocument = async <T, TData>(request: NextRequest | undefined, endpoint: string, data?: Partial<TData>, query?: object) =>
-        api.post<ResponseApi<T>>(`${endpoint}${getQuery(query)}`, { data }, this.getAuthHeader({ request })).then(res => res.data);
+    private static createDocument = async <T, TData>(request: NextRequest | undefined, endpoint: string, data?: Partial<TData>, query?: object, token?: string) =>
+        api.post<ResponseApi<T>>(`${endpoint}${getQuery(query)}`, this.mutationForceDataProperty ? { data } : data, this.getAuthHeader({ request, token })).then(res => res.data);
 
-    private static updateDocument = async <T, TData>(request: NextRequest | undefined, endpoint: string, documentId: string, data?: Partial<TData>, query?: object) =>
-        api.put<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`, { data }, this.getAuthHeader({ request })).then(res => res.data);
+    private static updateDocument = async <T, TData>(request: NextRequest | undefined, endpoint: string, id: string | number, data?: Partial<TData>, query?: object, token?: string) =>
+        api.put<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`, this.mutationForceDataProperty ? { data } : data, this.getAuthHeader({ request, token })).then(res => res.data);
 
-    private static updateDocuments = async <T, TData>(request: NextRequest | undefined, endpoint: string, documentIds: string[], data?: Partial<TData>[], query?: object) => {
+    private static updateDocuments = async <T, TData>(request: NextRequest | undefined, endpoint: string, ids: (string | number)[], data?: Partial<TData>[], query?: object, token?: string) => {
         const promises: Promise<ResponseApi<T>>[] = [];
-        for (let i = 0; i < documentIds.length; i++) promises.push(this.updateDocument<T, TData>(request, endpoint, documentIds[i], data?.[i], query));
+        for (let i = 0; i < ids.length; i++) promises.push(this.updateDocument<T, TData>(request, endpoint, ids[i], data?.[i], query, token));
         return Promise.all(promises);
     }
 
-    private static deleteDocument = async <T>(request: NextRequest | undefined, endpoint: string, documentId: string, query?: object) =>
-        api.delete<ResponseApi<T>>(`${endpoint}/${documentId}${getQuery(query)}`, this.getAuthHeader({ request })).then(res => res.data);
+    private static deleteDocument = async <T>(request: NextRequest | undefined, endpoint: string, id: string | number, query?: object, token?: string) =>
+        api.delete<ResponseApi<T>>(`${endpoint}/${id}${getQuery(query)}`, this.getAuthHeader({ request, token })).then(res => res.data);
 
-    private static deleteDocuments = async <T>(request: NextRequest | undefined, endpoint: string, documentIds: string[], query?: object) => {
+    private static deleteDocuments = async <T>(request: NextRequest | undefined, endpoint: string, ids: (string | number)[], query?: object, token?: string) => {
         const promises: Promise<ResponseApi<T>>[] = [];
-        for (const documentId of documentIds) promises.push(this.deleteDocument(request, endpoint, documentId, query));
+        for (const id of ids) promises.push(this.deleteDocument(request, endpoint, id, query, token));
         return Promise.all(promises);
     }
 
@@ -137,14 +149,14 @@ export class ApiBackend {
     }
 
     private static wrapper = <T, TData>(endpoint: string) => ({
-        get: (documentId: string) => this.getDocument<T>(endpoint, documentId),
+        get: (id: string | number) => this.getDocument<T>(endpoint, id),
         getAll: () => this.getDocuments<T[]>(endpoint),
         find: (query: string) => this.findDocuments<T[]>(endpoint, query),
-        create: (request: NextRequest, data: Partial<TData>) => this.createDocument<T, TData>(request, endpoint, data),
-        update: (request: NextRequest, documentId: string, data: Partial<TData>) => this.updateDocument<T, TData>(request, endpoint, documentId, data),
-        delete: (request: NextRequest, documentId: string) => this.deleteDocument<T>(request, endpoint, documentId),
-        bulkUpdate: (request: NextRequest, documentId: string[], data: Partial<TData>[]) => this.updateDocuments<T, TData>(request, endpoint, documentId, data),
-        bulkDelete: (request: NextRequest, documentId: string[]) => this.deleteDocuments<T>(request, endpoint, documentId),
+        create: (request: NextRequest, data: Partial<TData>, query?: object, token?: string) => this.createDocument<T, TData>(request, endpoint, data, query, token),
+        update: (request: NextRequest, id: string | number, data: Partial<TData>, query?: object, token?: string) => this.updateDocument<T, TData>(request, endpoint, id, data, query, token),
+        delete: (request: NextRequest, id: string | number, query?: object, token?: string) => this.deleteDocument<T>(request, endpoint, id, query, token),
+        bulkUpdate: (request: NextRequest, id: (string | number)[], data: Partial<TData>[], query?: object, token?: string) => this.updateDocuments<T, TData>(request, endpoint, id, data, query, token),
+        bulkDelete: (request: NextRequest, id: (string | number)[], query?: object, token?: string) => this.deleteDocuments<T>(request, endpoint, id, query, token),
     });
 
     // methods
@@ -164,20 +176,21 @@ export class ApiBackend {
                         password: data.password
                     }).then(async (res) => {
                         if (this.verbose) console.log('registering as', res.data);
-                        this.setToken(response, res.data.jwt);
+                        const token = res.data.jwt;
+                        this.setToken(response, token);
 
-                        const user = await this.getSelf({ token: res.data.jwt });
+                        const user = await this.getSelf({ request, token });
                         const newData = { ...data } as any;
                         delete data.password;
     
-                        const newUser = await this.users.update(request, user.documentId, {
+                        const newUser = await this.users.update(request, user.id, {
                             ...newData,
                             confirmed: true,
                             name: data.name?.trim(),
                             surname: data.surname?.trim(),
                             skills: data.skills?.trim(),
                             subject: data.subject?.trim(),
-                        });
+                        }, undefined, token);
 
                         if (this.verbose) console.log('created a new user:', newUser);
                         resolve(newUser);
@@ -187,7 +200,7 @@ export class ApiBackend {
                 }
             });
         },
-        login: async (response: Response, email: string, password: string) => {
+        login: async (request: NextRequest, response: Response, email: string, password: string) => {
             return new Promise<User>(async (resolve, reject) => {
                 const validEmail = await this.validateEmail(email, reject, true);
                 const validPassword = this.validatePassword(password, reject);
@@ -195,9 +208,10 @@ export class ApiBackend {
                 api.post<UserLoginRegisterResponse, AxiosResponse<UserLoginRegisterResponse>, UserLoginPostData>('/auth/local', { identifier: email.trim(), password: password.trim() })
                     .then(async (res) => {
                         if (this.verbose) console.log('logging in as', res.data);
-                        this.setToken(response, res.data.jwt);
+                        const token = res.data.jwt;
+                        this.setToken(response, token);
         
-                        const user = await this.getSelf({ token: res.data.jwt });
+                        const user = await this.getSelf({ request, token });
                         resolve(user);
                     });
             });
@@ -205,7 +219,7 @@ export class ApiBackend {
         loginAuto: async (request: NextRequest) => {
             const token = this.getToken(request);
             if (!token) return null;
-            const user = await this.getSelf({ token: token.value });
+            const user = await this.getSelf({ token });
             return user;
         },
         logout: async (request: NextRequest) => {
@@ -242,17 +256,17 @@ export class ApiBackend {
                     });
             });
         },
-        changePassword: async (request: NextRequest, currentPassword: string, password: string, passwordConfirmation: string) => {
+        changePassword: async (request: NextRequest, currentPassword: string, password: string, passwordConfirmation: string, token?: string) => {
             return new Promise<void>(async (resolve, reject) => {
                 const validPasswords = this.validatePasswords(password, passwordConfirmation, reject);
                 if (!validPasswords) return;
-                const token = this.getToken(request);
-                if (!token) {
+                const validToken = token ?? this.getToken(request);
+                if (!validToken) {
                     if (this.verbose) console.log('cannot change password due to invalid session.');
                     reject(new Error('Cannot change password due to invalid session.'));
                     return;
                 }
-                await api.post<void, AxiosResponse<void>>('/auth/change-password', { currentPassword, password, passwordConfirmation }, this.getAuthHeader({ request }))
+                await api.post<void, AxiosResponse<void>>('/auth/change-password', { currentPassword, password, passwordConfirmation }, this.getAuthHeader({ request, token: validToken }))
                     .then((res) => {
                         if (this.verbose) console.log('password has been changed!');
                         resolve();
@@ -263,19 +277,20 @@ export class ApiBackend {
     }
 
     static users = {
-        get: (documentId: string) => (this.getDocument<User>('/users', documentId) as unknown) as Promise<User>,
+        me: (request: NextRequest, token?: string) => this.getSelf({ request, token }),
+        get: (id: string | number) => (this.getDocument<User>('/users', id) as unknown) as Promise<User>,
         getAll: () => this.getUsersAll(),
         find: (query: string) => (this.findDocuments<User[]>('/users', query) as unknown) as Promise<User[]>,
     
         getMentors: () => this.getUsersAll('Mentor'),
         getMentees: () => this.getUsersAll('Mentee'),
     
-        update: (request: NextRequest, documentId: string, data: Partial<UserPostData>) =>
-            (this.updateDocument<User, UserPostData>(request, '/users', documentId, data) as unknown) as Promise<User>,
-        bulkUpdate: (request: NextRequest, documentId: string[], data: Partial<UserPostData>[]) =>
-            (this.updateDocuments<User, UserPostData>(request, '/users', documentId, data) as unknown) as Promise<User[]>,
-        bulkDelete: (request: NextRequest, documentId: string[]) =>
-            (this.deleteDocuments<User>(request, '/users', documentId) as unknown) as Promise<User[]>,
+        update: (request: NextRequest, id: string | number, data: Partial<UserPostData>, query?: object, token?: string) =>
+            (this.updateDocument<User, UserPostData>(request, '/users', id, data, query, token) as unknown) as Promise<User>,
+        bulkUpdate: (request: NextRequest, id: (string | number)[], data: Partial<UserPostData>[], query?: object, token?: string) =>
+            (this.updateDocuments<User, UserPostData>(request, '/users', id, data, query, token) as unknown) as Promise<User[]>,
+        bulkDelete: (request: NextRequest, id: (string | number)[], query?: object, token?: string) =>
+            (this.deleteDocuments<User>(request, '/users', id, query, token) as unknown) as Promise<User[]>,
     };
 
     static chats = this.wrapper<Chat, ChatPostData>('/chats');
