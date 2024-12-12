@@ -63,7 +63,8 @@ export class ApiBackend {
         const prod = process.env.NODE_ENV === 'production';
         const secure = prod ? '; Secure' : '';
         const httpOnly = prod ? '; HttpOnly' : '';
-        return response.headers.set('Set-Cookie', `token=${token}; Max-Age=${maxAge}${secure}${httpOnly}`);
+        response.headers.set('Set-Cookie', `token=${token}; Max-Age=${maxAge}${secure}${httpOnly}`);
+        if (this.verbose) console.log('cookie has been set:', response.headers.get('Set-Cookie'));
     }
     
     private static getAuthHeader = ({ request, token }: { request?: NextRequest, token?: string }) => {
