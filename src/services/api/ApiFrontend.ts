@@ -8,6 +8,7 @@ import {
     ChatMessage,
     ChatMessagePostData,
     ChatPostData,
+    Media,
     ResponseApi,
     User,
     UserPostData,
@@ -112,6 +113,20 @@ export class ApiFrontend {
                     }).catch(err => reject(err));
             });
         },
+    }
+
+    static upload = {
+        uids: { user: 'plugin::users-permissions.user' },
+        field: { user: 'avatar' },
+        entryFileFormData: async (formData: FormData) =>
+            await api.post<Media[], AxiosResponse<Media[]>>('/upload', formData, {
+                headers: {
+                    'Accept': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data'
+                },
+            }).then(res => res.data),
+        entryFile: async (file: Blob, entryUid: string, entryId: string | number, field: string) =>
+            await api.post<Media[], AxiosResponse<Media[]>>('/upload/file', { file, entryUid, entryId, field }).then(res => res.data),
     }
 
     static users = {

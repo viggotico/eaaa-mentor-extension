@@ -1,8 +1,8 @@
-import { MouseEventHandler } from "react";
 import Link from "next/link";
-import styles from "./CardCallToAction.module.css";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { MouseEventHandler } from "react";
 import { SectionNested } from "./SectionNested";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import styles from "./CardCallToAction.module.css";
 
 interface CardCallToActionProps {
     bgImage: string;

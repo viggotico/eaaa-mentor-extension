@@ -12,11 +12,12 @@
   flex-direction: column;
   flex-grow: 1;
   min-height: 40vh;
+  margin: 0 0 var(--padding-common) 0;
 }
 
 @media (min-width: 960px) {
   .mainContent {
-    margin: 0 var(--padding-common);
+    margin: 0 var(--padding-common) var(--padding-common) var(--padding-common);
   }
 }
 
@@ -25,6 +26,7 @@
   height: var(--padding-common);
   margin: 0 auto;
   width: 100%;
+  z-index: 100;
 }
 
 .header {

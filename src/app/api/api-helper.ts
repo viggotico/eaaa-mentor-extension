@@ -39,11 +39,14 @@ export const handleRequest = async (req: NextRequest, callback: ({ data, searchP
         return res;
     } catch (err: any) {
         console.error(`${getTime()} ${req.method} ${req.url}`, err);
-        return new Response(JSON.stringify({
+        return new Response(JSON.stringify(err?.response?.status ? {
             status: err.response.status,
             message: err.response.statusText,
+        } : {
+            status: 500,
+            message: 'Internal Server Error'
         }), {
-            status: err.status,
+            status: err?.status ?? 500,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
