@@ -1,0 +1,61 @@
+.main{
+    width: 100%;
+}
+
+.profileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--secondary-color-quiet-gray, #f3f4f7);
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 960px) {
+    .profileContainer {
+        flex-direction: row;
+        width: 30%;
+    }
+    
+}
+
+.header {
+ flex-direction: row;
+ width: 100%;
+  font-size: 3.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px; /* Laver plads under overskriften */
+  color: #333; /* Juster farven */
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.userDetails {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.userTitle {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #666;
+}

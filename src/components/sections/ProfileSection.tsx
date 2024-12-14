@@ -1,26 +1,54 @@
 import { SingleItem } from "@/types/single-item";
-import { ApiFrontend } from "@/services/api/ApiFrontend"; // brug dette class til at få den nuværende bruger's data fx ApiFrontend.currentUser eller til at kalde på backend API's fx ApiFrontend.users.getAll()
+import { ApiFrontend } from "@/services/api/ApiFrontend"; // Brug denne klasse til at hente data
 import { Section } from "@/components/Section";
 import { User } from "@/types/api";
-import styles from "./ProfileSection.module.css"; // brug dette object til css
+import styles from "./ProfileSection.module.css"; // Til CSS styling
 
 interface ProfileSectionProps {
-  user: User;
+  user?: User;
 }
 
-export const ProfileSection = ({ user }: ProfileSectionProps) => {
-  const ownProfile = ApiFrontend.currentUser?.documentId === user.documentId;
+export const ProfileSection = async ({ user }: ProfileSectionProps) => {
+  const ownProfile = ApiFrontend.currentUser?.documentId === user?.documentId;
+  const userdata = await ApiFrontend.users.get(17);
+
+  if (!userdata) return <p>Loading user...</p>;
+  // Mock data - erstat dette med userdata, når det virker
+  const userMock = {
+    name: "Mikkel",
+    age: 26,
+    semester: "4. semester",
+    title: "Front-End Developer",
+    profileImage: "hani/avatar.jpg", // Skift til rigtig URL
+  };
 
   return (
-    // <Section> komponenten er en flexbox med flex-direction: row og en gap på 15px
     <Section
-      visibility='Private' // her kan du ændre hvem der har adgang til sektionen
-      bgColor='--secondary-color-quiet-gray: #f3f4f7' // her kan du ændre baggrundsfarve til sektionen
-      gap='15px' // normale værdi er '15px'
-      flexDirection='column' // normale værdi er 'column'
+      visibility="Public" // Kan justeres
+      bgColor="--main-color-teel-green: #80b4bf" // Sektionens baggrundsfarve
+      gap="15px"
+      flexDirection="column"
     >
-      {/* Skriv dit indhold herinde */}
-      <h1>Profil</h1>
+    
+      <h1 className={styles.header}>Profil</h1>
+      <div className={styles.main}>
+        <div className={styles.profileContainer}>
+          <img
+            src={userMock.profileImage}
+            alt={`${userMock.name}'s profile`}
+            className={styles.profileImage}
+          />
+          <div className={styles.profileInfo}>
+            <h1 className={styles.userName}>{userMock.name}</h1>
+            <p className={styles.userDetails}>
+              {userMock.age} år
+              <br />
+              {userMock.semester}
+            </p>
+            <p className={styles.userTitle}>{userMock.title}</p>
+          </div>
+        </div>
+      </div>
     </Section>
   );
-}
+};

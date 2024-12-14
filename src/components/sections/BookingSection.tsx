@@ -6,13 +6,13 @@ export const BookingSection = () => {
   return (
     // <Section> komponenten er en flexbox med flex-direction: row og en gap på 15px
     <Section
-      visibility='Private' // her kan du ændre hvem der har adgang til sektionen
-      bgColor='--secondary-color-quiet-gray: #f3f4f7' // her kan du ændre baggrundsfarve til sektionen
-      gap='15px' // normale værdi er '15px'
-      flexDirection='column' // normale værdi er 'column'
+      visibility="Public" // her kan du ændre hvem der har adgang til sektionen
+      bgColor="--secondary-color-quiet-gray: #f3f4f7" // her kan du ændre baggrundsfarve til sektionen
+      gap="15px" // normale værdi er '15px'
+      flexDirection="column" // normale værdi er 'column'
     >
       {/* Skriv dit indhold herinde */}
       <h1>Booking</h1>
     </Section>
   );
-}
+};
