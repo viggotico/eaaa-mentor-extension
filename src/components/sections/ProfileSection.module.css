@@ -11,14 +11,15 @@
   background-color: var(--secondary-color-quiet-gray, #f3f4f7);
   border-radius: 8px;
 }
-
+/* 
 @media screen and (min-width: 960px) {
     .profileContainer {
         flex-direction: row;
-        width: 30%;
+        width: 35%;
+        height: 470px;
     }
     
-}
+} */
 
 .header {
  flex-direction: row;
@@ -27,13 +28,13 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px; /* Laver plads under overskriften */
-  color: #333; /* Juster farven */
+  color: #000000; /* Juster farven */
 }
 
 .profileImage {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 30%;
   object-fit: cover;
   border: 2px solid #ccc;
 }
@@ -43,19 +44,134 @@
   flex-direction: column;
 }
 
+
+/* Booking */
 .userName {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   margin: 0;
+  line-height: 1.5em;
 }
 
 .userDetails {
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin: 5px 0;
+  line-height: 1.5em;
 }
 
 .userTitle {
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   font-style: italic;
   color: #666;
+  font-weight: bold;
+}
+.bookingsSection {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--secondary-color-quiet-gray, #f3f4f7);
+  border-radius: 8px;
+}
+
+.bookingsHeader {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background-color: var(--secondary-color-quiet-gray, #80b4bf);
+  border-radius: 15px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profileIcon {
+  font-size: 3rem;
+}
+
+.info {
+  text-align: left;
+  width: 100%;
+}
+
+.details {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.statusIcon {
+  margin-top: 10px;
+  font-size: 2rem;
+  color: green;
+}
+
+/* Button */
+
+.chatButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0078d4;
+  color: white;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.chatPopup {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background-color: #f3f4f7;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 300px;
+  height: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.chatContent {
+  padding: 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.closeChat {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0 0 8px 8px;
 }
