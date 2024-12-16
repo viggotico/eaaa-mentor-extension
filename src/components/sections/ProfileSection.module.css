@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
 .main {
   display: flex; /* Flexbox for centrering */
   justify-content: center; /* Centrerer vandret */
   align-items: center; /* Centrerer lodret */
-  height: 75vh; /* Sørg for, at sektionen fylder hele skærmens højde */
+  height: 70vh; /* Sørg for, at sektionen fylder hele skærmens højde */
 }
 
 .profileContainer {
@@ -47,7 +47,6 @@
   flex-direction: column;
   margin-left: 3%;
 }
-
 
 /* Booking */
 .userName {
@@ -189,8 +188,8 @@
 
 .chatButton {
   position: absolute; /* Sørg for, at knappen er placeret i forhold til chatContainer */
-  bottom: 20px; /* Afstand fra bunden */
-  left: 500px; /* Flyt knappen mod højre */
+  bottom: 90px; /* Afstand fra bunden */
+  left: 450px; /* Flyt knappen mod højre */
   background-color: #0078d4;
   color: #fff;
   border: none;
