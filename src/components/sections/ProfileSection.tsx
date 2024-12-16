@@ -60,6 +60,8 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
     documentId: "specific-user-id", // Skift dette ID, hvis nødvendigt
   };
 
+
+  
   // Betingelse: Kun vis chatten for specifikke brugere
   const isChatEnabled = true; // Test: Gør chat altid synlig
 
@@ -91,6 +93,38 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
           </div>
         </div>
       </div>
+
+{/* Chat */}
+      <section>
+        <div className={styles.chatContainer}>
+          <button onClick={toggleChat} className={styles.chatButton}>
+            💬 Chat
+          </button>
+
+          {chatOpen && (
+            <div className={styles.chatBox}>
+              <div className={styles.chatHeader}>
+                <p>Chat med Mikkel</p>
+                <button onClick={toggleChat} className={styles.closeButton}>
+                  ❌
+                </button>
+              </div>
+              <div className={styles.chatMessages}>
+                <p className={styles.message}>
+                  Hej! Hvordan kan jeg hjælpe dig?
+                </p>
+              </div>
+              <div className={styles.chatInput}>
+                <input type="text" placeholder="Skriv en besked..." />
+                <button>Send</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Sort streg */}
+      <div className={styles.horizontalLine}></div>
 
       {/* Booking-sektionen */}
       <div className={styles.bookingsSection}>
