@@ -21,7 +21,7 @@ interface Booking {
 
 const bookings: Booking[] = [
   {
-    name: "Cecile",
+    name: "Cecilie",
     age: 20,
     semester: "Første semester",
     preference: "Fysisk møde",
@@ -129,28 +129,6 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
           ))}
         </div>
       </div>
-
-      {/* Chat-knap - kun synlig hvis isChatEnabled er true */}
-
-      {isChatEnabled && (
-        <>
-          <div className={styles.chatButton} onClick={toggleChat}>
-            💬 {/* Erstat evt. med et SVG eller andet chat-ikon */}
-          </div>
-          {/* Chat-popup */}
-          {chatOpen && (
-            <div className={styles.chatPopup}>
-              <h3>Chat med os!</h3>
-              <div className={styles.chatContent}>
-                <p>Hej! Hvordan kan vi hjælpe dig?</p>
-              </div>
-              <button className={styles.closeChat} onClick={toggleChat}>
-                Luk
-              </button>
-            </div>
-          )}
-        </>
-      )}
     </Section>
   );
 };
