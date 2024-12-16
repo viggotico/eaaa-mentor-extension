@@ -1,6 +1,6 @@
 import { ApiFrontend } from "@/services/api/ApiFrontend"; // brug dette class til at få den nuværende bruger's data fx ApiFrontend.currentUser eller til at kalde på backend API's fx ApiFrontend.users.getAll()
 import { Section } from "@/components/Section";
-import styles from "./AboutUs.module.css"; // brug dette object til css
+import styles from "./AboutUsSection.module.css"; // brug dette object til css
 
 export const AboutUsSection = () => {
   return (
@@ -10,10 +10,27 @@ export const AboutUsSection = () => {
       bgColor='--secondary-color-quiet-gray: #f3f4f7' // her kan du ændre baggrundsfarve til sektionen
       gap='15px' // normale værdi er '15px'
       flexDirection='column' // normale værdi er 'column'
+    
     >
       {/* Skriv dit indhold herinde */}
-      <h1>Om os</h1>
-      <p>EAAA Mentorordning er bla bla bla</p>
+      <div className={styles.container}>
+        <div className={styles.circleBox}></div>
+          <div className={styles.imageBox}></div>
+          <div className={styles.textContainer}>
+          <h1>Om os</h1>
+          <p>
+            Mentorordningen på Erhvervsakademi Aarhus forbinder studerende med
+            erfarne mentorer(Studerende), der kan hjælpe med faglige og studiemæssige
+            udfordringer.
+          </p>
+          <p>
+            Vores platform gør det nemt at finde en mentor, booke møder og
+            kommunikere direkte via chat. Med støtte fra andre studerende
+            skaber vi et stærkere studiemiljø, hvor alle kan trives og udvikle
+            sig.
+          </p>
+        </div>
+      </div>
     </Section>
   );
 }

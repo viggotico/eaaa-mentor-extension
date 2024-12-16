@@ -3,18 +3,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: calc(100% - 60px);
     min-height: 200px;
     height: fit-content;
     background-color: var(--background);
     padding: 30px;
+    gap: 15px;
 }
 
 .sectionInnerCaption {
     display: block;
     pointer-events: none;
+    width: calc(100% - 60px);
     min-height: 100px;
     z-index: 10;
     position: absolute;
     bottom: 30px;
+}
+
+@media (max-width: 960px) {
+    .sectionInner {
+        width: 100%;
+    }
 }
