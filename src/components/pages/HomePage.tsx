@@ -7,6 +7,9 @@ import { AboutUsSection } from "../sections/AboutUsSection";
 import {CalenderSection} from "../sections/CalenderSection"
 import {CalenderSubmit} from "../sections/CalenderSubmitSection"
 import {FindAMentorSection} from "../sections/FindAMentorSection"
+import { ProfileSection } from "../sections/ProfileSection";
+import { BookingSection } from "../sections/BookingSection";
+import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { ChatsPage } from "./ChatsPage";
 import styles from "../sections/ChatsSection.module.css";
 
@@ -20,12 +23,12 @@ export const HomePage = () => {
       setShowSubmit(false); 
     }, 2000);
   };
-
-
   return (
     <Page visibility="Public">
       <LoginCardsSection />
       <AboutUsSection />
+      <ProfileSection user={undefined} />
+      <BookingSection />
       <br />
       <ChatsPage />
       <br />

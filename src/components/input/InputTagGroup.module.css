@@ -1,0 +1,89 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    width: 70vw;
+    min-width: 50px;
+    max-width: 1000px;
+}
+
+.inputGroup span {
+    margin: 3px 0;
+}
+
+.inputGroupFlex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.tagGroup {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+}
+
+.tagRemoveButton,
+.tagAddButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    background-color: var(--secondary-color-jade-green);
+    border: none;
+    color: var(--background);
+    font-size: .875em;
+    font-weight: bold;
+}
+
+.tagRemoveButton:hover,
+.tagAddButton:hover {
+    background-color: var(--main-color-teel-green);
+    cursor: pointer;
+}
+
+.tagRemoveButton {
+    padding: 5px;
+}
+
+.tagRemoveButton svg {
+    width: 20px;
+    height: auto;
+}
+
+.tagAddButton {
+    min-height: 50px;
+    padding: 10px 35px;
+}
+
+.tagAddButton:disabled {
+    background-color: gray;
+    cursor: default;
+}
+
+@media (max-width: 500px) {
+    .inputGroup,
+    .inputGroupFlex,
+    .tagGroup,
+    .tagAddButton {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+    }
+}
+
+@media (max-width: 500px) {
+    .input span {
+        margin: 2px 0;
+    }
+}
+
+@media (max-width: 960px) {
+    .inputGroupFlex {
+        gap: 5px;
+    }
+}

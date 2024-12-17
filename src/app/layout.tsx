@@ -1,21 +1,35 @@
+'use client'
+
+
 import "./globals.css";
+import { ApiFrontend } from "@/services/api/ApiFrontend";
 import styles from "./layout.module.css";
 
-import type { Metadata } from "next";
 import Link from "next/link";
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export const metadata: Metadata = {
-  title: "Mentorordning",
-  description: "EAAA",
-};
+import { FooterSection } from "@/components/sections/FooterSection";
+import { NavBar } from "@/components/NavBar";
+import { useEffect } from "react";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
 export default ({ children }: RootLayoutProps) => {
+  const toggleMenu = (e: any) => {
+    e?.preventDefault();
+    const nav = document.getElementById('nav');
+    nav?.style.setProperty('display', nav.style.display === 'flex' ? 'none' : 'flex');
+  }
+
+  useEffect(() => {
+    document.title = 'Mentorordning - EAAA';
+    if (ApiFrontend.currentUser) return;
+    ApiFrontend.auth.loginAuto();
+  }, []);
+  
   return (
     <html lang="dk">
       <body>
@@ -31,7 +45,8 @@ export default ({ children }: RootLayoutProps) => {
                     <SearchIcon />
                   </Link>
                 </div>
-                <div className={styles.headerRight}>
+                <NavBar />
+                <div className={styles.headerRight} onClick={toggleMenu}>
                   <div className={styles.headerIcon}>
                     <MenuIcon />
                   </div>
@@ -43,6 +58,7 @@ export default ({ children }: RootLayoutProps) => {
             {children}
           </main>
         </div>
+        <FooterSection />
       </body>
     </html>
   );

@@ -1,26 +1,166 @@
+"use client";
+
 import { SingleItem } from "@/types/single-item";
-import { ApiFrontend } from "@/services/api/ApiFrontend"; // brug dette class til at få den nuværende bruger's data fx ApiFrontend.currentUser eller til at kalde på backend API's fx ApiFrontend.users.getAll()
+import { ApiFrontend } from "@/services/api/ApiFrontend"; // Brug denne klasse til at hente data
 import { Section } from "@/components/Section";
 import { User } from "@/types/api";
-import styles from "./ProfileSection.module.css"; // brug dette object til css
+import styles from "./ProfileSection.module.css"; // Til CSS styling
+import React, { useState } from "react"; // Tilføj useState for chat-funktionen
 
 interface ProfileSectionProps {
-  user: User;
+  user?: User;
 }
 
-export const ProfileSection = ({ user }: ProfileSectionProps) => {
-  const ownProfile = ApiFrontend.currentUser?.documentId === user.documentId;
+interface Booking {
+  name: string;
+  age: number;
+  semester: string;
+  preference: string;
+  dateTime: string;
+}
+
+const bookings: Booking[] = [
+  {
+    name: "Cecilie",
+    age: 20,
+    semester: "Første semester",
+    preference: "Fysisk møde",
+    dateTime: "20/09 kl 12:00",
+  },
+  {
+    name: "Omar",
+    age: 23,
+    semester: "Første semester",
+    preference: "Fysisk møde",
+    dateTime: "26/09 kl 10:30",
+  },
+  {
+    name: "Camila",
+    age: 24,
+    semester: "Første semester",
+    preference: "Online møde",
+    dateTime: "20/09 kl 13:45",
+  },
+];
+
+export const ProfileSection = async ({ user }: ProfileSectionProps) => {
+  const [chatOpen, setChatOpen] = useState(false); // Chat-tilstand
+
+  const toggleChat = () => {
+    setChatOpen(!chatOpen); // Skifter mellem åben/lukket
+  };
+
+  // Mock data - erstat dette med userdata, når det virker
+  const userMock = {
+    name: "Mikkel",
+    age: 26,
+    semester: "4. semester",
+    title: "Front-End Developer",
+    profileImage: "hani/avatar.jpg", // Skift til rigtig URL
+    documentId: "specific-user-id", // Skift dette ID, hvis nødvendigt
+  };
+
+  // Betingelse: Kun vis chatten for specifikke brugere
+  const isChatEnabled = true; // Test: Gør chat altid synlig
+
+  console.log("isChatEnabled:", isChatEnabled); // Debugging
 
   return (
-    // <Section> komponenten er en flexbox med flex-direction: row og en gap på 15px
     <Section
-      visibility='Private' // her kan du ændre hvem der har adgang til sektionen
-      bgColor='--secondary-color-quiet-gray: #f3f4f7' // her kan du ændre baggrundsfarve til sektionen
-      gap='15px' // normale værdi er '15px'
-      flexDirection='column' // normale værdi er 'column'
+      visibility="Public" // Kan justeres
+      bgColor="--secondary-color-quiet-gray: #f3f4f7" // Sektionens baggrundsfarve
+      gap="15px"
+      flexDirection="column"
     >
-      {/* Skriv dit indhold herinde */}
-      <h1>Profil</h1>
+      <h1 className={styles.header}>Profil</h1>
+      <div className={styles.main}>
+        <div className={styles.profileContainer}>
+          <img
+            src={userMock.profileImage}
+            alt={`${userMock.name}'s profile`}
+            className={styles.profileImage}
+          />
+          <div className={styles.profileInfo}>
+            <h1 className={styles.userName}>{userMock.name}</h1>
+            <p className={styles.userDetails}>
+              {userMock.age} år
+              <br />
+              {userMock.semester}
+            </p>
+            <p className={styles.userTitle}>{userMock.title}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Chat */}
+      <section>
+        <div className={styles.chatContainer}>
+          <button onClick={toggleChat} className={styles.chatButton}>
+            💬 Chat
+          </button>
+
+          {chatOpen && (
+            <div className={styles.chatBox}>
+              <div className={styles.chatHeader}>
+                <p>Chat med Mikkel</p>
+                <button onClick={toggleChat} className={styles.closeButton}>
+                  ❌
+                </button>
+              </div>
+              <div className={styles.chatMessages}>
+                <p className={styles.message}>
+                  Hej! Hvordan kan jeg hjælpe dig?
+                </p>
+              </div>
+              <div className={styles.chatInput}>
+                <input type="text" placeholder="Skriv en besked..." />
+                <button>Send</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Sort streg */}
+      <div className={styles.horizontalLine}></div>
+
+      {/* Booking-sektionen */}
+      <div className={styles.bookingsSection}>
+        <h2 className={styles.bookingsHeader}>Dine Bookinger</h2>
+        <div className={styles.cardsContainer}>
+          {bookings.map((booking, index) => (
+            <div key={index} className={styles.card}>
+              <div className={styles.cardContent}>
+                <div className={styles.profileIcon}>
+                  <span role="img" aria-label="user">
+                    👤
+                  </span>
+                </div>
+                <div className={styles.info}>
+                  <p>
+                    <strong>Navn:</strong> {booking.name}
+                  </p>
+                  <p>
+                    <strong>Alder:</strong> {booking.age}
+                  </p>
+                  <p>{booking.semester}</p>
+                </div>
+                <div className={styles.details}>
+                  <p>
+                    <strong>Ønsker:</strong> {booking.preference}
+                  </p>
+                  <p>{booking.dateTime}</p>
+                </div>
+                <div className={styles.statusIcon}>
+                  <span role="img" aria-label="check">
+                    ✅ 🚫
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </Section>
   );
-}
+};

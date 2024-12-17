@@ -1,0 +1,35 @@
+/* .innerBox {
+    background-color: white; 
+    padding: 50px; 
+    max-width: 800px; 
+    width: 100%; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .innerBox h1 {
+    font-size: 2.2em; 
+    margin-bottom: 20px; 
+  }
+
+  .innerBox h2 {
+    font-size: 1.1em;
+    margin-bottom: 15px; 
+  } */
+  
+  /* .innerBox p {
+    font-size: 1.1em;
+    line-height: 1.6; 
+    text-align: left;
+    margin-bottom: 15px; 
+  }
+  
+  @media (max-width: 768px) {
+    .innerBox {
+      padding: 30px;
+    }
+  
+    .innerBox h1 h2 p {
+       margin-bottom: 10px;
+      }
+  } */ 

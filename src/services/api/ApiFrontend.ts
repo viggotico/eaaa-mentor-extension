@@ -8,6 +8,7 @@ import {
     ChatMessage,
     ChatMessagePostData,
     ChatPostData,
+    Media,
     ResponseApi,
     User,
     UserPostData,
@@ -84,9 +85,14 @@ export class ApiFrontend {
     // methods
 
     static auth = {
-        register: async (data: UserRegisterPostData) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
+        register: async (data: Partial<UserRegisterPostData>) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
         login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => this.currentUser = res.data),
-        loginAuto: async () => api.get<User>('/auth/session').then(res => this.currentUser = res.data),
+        loginAuto: async () => {
+            try {
+                const user = await api.get<User>('/auth/session').then(res => this.currentUser = res.data);
+                return user;
+            } catch (e) { }
+        },
         logout: async () => {
             const canLogout = api.get<boolean>('/auth/logout').then(res => res.data);
             if (!canLogout) return false;
@@ -112,6 +118,20 @@ export class ApiFrontend {
                     }).catch(err => reject(err));
             });
         },
+    }
+
+    static upload = {
+        uids: { user: 'plugin::users-permissions.user' },
+        field: { user: 'avatar' },
+        entryFileFormData: async (formData: FormData) =>
+            await api.post<Media[], AxiosResponse<Media[]>>('/upload', formData, {
+                headers: {
+                    'Accept': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data'
+                },
+            }).then(res => res.data),
+        entryFile: async (file: Blob, entryUid: 'plugin::users-permissions.user', entryId: string | number, field: string) =>
+            await api.post<Media[], AxiosResponse<Media[]>>('/upload/file', { file, entryUid, entryId, field }).then(res => res.data),
     }
 
     static users = {

@@ -25,10 +25,15 @@ export const getParamsId = async (params: Params['params']) => {
 export const handleRequest = async (req: NextRequest, callback: ({ data, searchParams }: { data?: any, searchParams: URLSearchParams }) => Promise<Response>) => {
     try {
         let data: any;
+        const header = req.headers.get('content-type')?.split(';')[0];
         switch (req.method.toUpperCase()) {
             case 'POST':
             case 'PUT':
-                data = await req.json();
+                switch (header) {
+                    case 'application/json': data = await req.json(); break;
+                    case 'multipart/form-data': data = await req.formData(); break;
+                    default: throw new Error(`data type for '${header}' is not implemented.`);
+                }
                 if (!data) throw new Error('Undefined data.');
                 break;
         }
@@ -39,11 +44,14 @@ export const handleRequest = async (req: NextRequest, callback: ({ data, searchP
         return res;
     } catch (err: any) {
         console.error(`${getTime()} ${req.method} ${req.url}`, err);
-        return new Response(JSON.stringify({
+        return new Response(JSON.stringify(err?.response?.status ? {
             status: err.response.status,
             message: err.response.statusText,
+        } : {
+            status: 500,
+            message: 'Internal Server Error'
         }), {
-            status: err.status,
+            status: err?.status ?? 500,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
