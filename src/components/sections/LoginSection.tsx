@@ -8,6 +8,7 @@ import { User } from "@/types/api";
 import { Form } from "../input/Form";
 import { InputText } from "../input/InputText";
 import { InputButtons } from "../input/InputButtons";
+import { getHomeUrl } from "@/services/StringUtils";
 import styles from "./LoginSection.module.css";
 
 interface LoginSectionProps {
@@ -20,7 +21,11 @@ class LoginError {
 
 export const LoginSection = ({ type }: LoginSectionProps) => {
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
-  useEffect(() => setErrorMsg(LoginError.msg), [LoginError]);
+  useEffect(() => {
+    setErrorMsg(LoginError.msg)
+    if (!LoginError.msg) return;
+    alert(LoginError.msg);
+  }, [LoginError.msg]);
 
   return (
     <Section
@@ -38,9 +43,15 @@ export const LoginSection = ({ type }: LoginSectionProps) => {
             if (user) {
               LoginError.msg = undefined;
               console.log('Successfully logged in as', `${user.name}!`);
-              window.location.href = `http://${window.location.hostname}`;
+              window.location.href = getHomeUrl()!;
+            } else {
+              LoginError.msg = 'Failed to login due to invalid user.';
+              console.error(LoginError.msg);
             }
-          }).catch(err => LoginError.msg = err.message);
+          }).catch(err => {
+            LoginError.msg = err.message;
+            alert(err.message);
+          });
       }}>
         <InputText
           type='email'

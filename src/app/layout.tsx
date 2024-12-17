@@ -1,9 +1,10 @@
 'use client'
 
+
 import "./globals.css";
+import { ApiFrontend } from "@/services/api/ApiFrontend";
 import styles from "./layout.module.css";
 
-import type { Metadata } from "next";
 import Link from "next/link";
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -25,6 +26,8 @@ export default ({ children }: RootLayoutProps) => {
 
   useEffect(() => {
     document.title = 'Mentorordning - EAAA';
+    if (ApiFrontend.currentUser) return;
+    ApiFrontend.auth.loginAuto();
   }, []);
   
   return (

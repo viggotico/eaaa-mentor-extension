@@ -11,6 +11,7 @@
 
 .input-area {
     height: 100px;
+    align-items: flex-start;
 }
 
 .input-short {

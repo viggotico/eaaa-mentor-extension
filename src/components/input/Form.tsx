@@ -8,7 +8,12 @@ export interface InputButtonsProps {
 
 export const Form = ({ children, action }: InputButtonsProps) => {
     const formRef = useRef<HTMLFormElement>(null);
-    return <form ref={formRef} action={action}>
+    return <form ref={formRef} action={(data) => {
+        if (!action) return;
+        if (!formRef.current?.checkValidity()) return;
+        if (typeof action === 'function') action?.(data);
+        else action;
+    }}>
         {children}
   </form>;
 }

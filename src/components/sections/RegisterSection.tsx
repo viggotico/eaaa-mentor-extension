@@ -13,6 +13,7 @@ import { InputSelectGroup } from "../input/InputSelectGroup";
 import { InputTagGroup } from "../input/InputTagGroup";
 import { InputTimeTable } from "../input/InputTimeTable";
 import { InputDropzone } from "../input/InputDropzone";
+import { getHomeUrl } from "@/services/StringUtils";
 import styles from "./RegisterSection.module.css";
 
 interface LoginSectionProps {
@@ -29,7 +30,11 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
   const [isValidCode, setIsValidCode] = useState<boolean>(isMentor ? false : true);
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
 
-  useEffect(() => setErrorMsg(RegisterError.msg), [RegisterError]);
+  useEffect(() => {
+    setErrorMsg(RegisterError.msg);
+    if (!RegisterError.msg) return;
+    alert(RegisterError.msg);
+  }, [RegisterError.msg]);
   
   return (
     <Section
@@ -66,7 +71,7 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
           </Form>
           :
           <Form action={async (formData) => {
-            const file = formData.get('file') as Blob;
+            const file = formData.get('files') as Blob;
             const email = formData.get('email') as string;
             const name = formData.get('fname') as string;
             const surname = formData.get('lname') as string;
@@ -89,7 +94,8 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
                 case 'Begge': meetingType = 'Both'; break;
               }
 
-              timetable
+              // timetable
+              // availability
             }
 
             ApiFrontend.auth.register({
@@ -111,14 +117,30 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               if (user) {
                 RegisterError.msg = undefined;
                 console.log('Successfully logged in as', `${user.name}!`);
-                ApiFrontend.upload.entryFile(file, 'plugin::users-permissions.user', user.id, ApiFrontend.upload.field.user)
+                const homeUrl = getHomeUrl()!;
+
+                const avatarFormData = new FormData();
+                avatarFormData.append('files', file);
+                avatarFormData.append('ref', 'plugin::users-permissions.user');
+                avatarFormData.append('refId', `${user.id}`);
+                avatarFormData.append('field', 'avatar');
+                ApiFrontend.upload.entryFileFormData(avatarFormData)
                   .then(media => {
                     RegisterError.msg = undefined;
                     console.log('Successfully updated', `${user.name}'s avatar!`, media[0]);
-                    window.location.href = `http://${window.location.hostname}`;
-                  }).catch(e => RegisterError.msg = e.message);
+                    window.location.href = homeUrl;
+                  }).catch(e => {
+                    RegisterError.msg = `Failed to set user avatar. ${e.message}`;
+                    window.location.href = homeUrl;
+                  });
+              } else {
+                RegisterError.msg = 'Failed to create user due to invalid user data.';
+                console.error(RegisterError.msg);
               }
-            }).catch(err => RegisterError.msg = err.message);
+            }).catch(err => {
+              RegisterError.msg = err.message;
+              alert(err.message);
+            });
           }}>
             <InputText
               type='fname'
@@ -245,7 +267,16 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
                     required={true}
                   />
                 </>
-                : <></>
+                : <>
+                  <InputText
+                    type='text'
+                    name='description'
+                    label='Hvorfor vil du gerne være mentee og hvad er dine udfordringer?'
+                    required={true}
+                    isTextArea={true}
+                    placeholder='...'
+                  />
+                </>
             }
             <InputText
               type='email'
@@ -267,6 +298,8 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               label='Adgangskode'
               placeholder='••••••••••'
               required={true}
+              min='4'
+              max='50'
             />
             <InputText
               type='password'
@@ -274,6 +307,8 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               label='Gentag adgangskode'
               placeholder='••••••••••'
               required={true}
+              min='4'
+              max='50'
             />
             <div className='group-row'>
               <InputButtons type='submit' label='Opret konto' />

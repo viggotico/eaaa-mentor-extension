@@ -300,23 +300,16 @@ export class ApiBackend {
                     return;
                 }
 
-                const validToken = token ?? this.getToken(request, true);
-                if (!validToken) {
-                    if (this.verbose) console.log('cannot upload file(s) due to invalid session.');
-                    reject(new Error('Cannot upload file(s) due to invalid session.'));
-                    return;
-                }
-
-                const config = this.getAuthHeader({ request, token: validToken });
+                // const config = this.getAuthHeader({ request });
                 const contentHeaders = {
                     'Accept': 'multipart/form-data',
                     'Content-Type': 'multipart/form-data'
                 };
 
                 await api.post<Media[], AxiosResponse<Media[]>>('/upload', formData, {
-                    ...config,
+                    // ...config,
                     headers: {
-                        ...config.headers,
+                        // ...config.headers,
                         ...contentHeaders
                     }
                 }).then((res) => {
@@ -328,6 +321,7 @@ export class ApiBackend {
         },
         entryFile: async (request: NextRequest, file: Blob, entryUid: string, entryId: string | number, field: string, token?: string) => {
             const formData = new FormData();
+            console.log('file:', file);
             if (file) formData.append('files', file);
             if (entryUid) formData.append('ref', entryUid);
             if (entryId != undefined) formData.append('refId', `${entryId}`);
