@@ -26,6 +26,6 @@ export const ChatSessionPage = async ({ params }: SingleItem) => {
   }
   
   return <Page visibility='Private'>
-    <ChatSessionSection chat={chat.data} />
+    <ChatSessionSection chatId={chat.data.id} menteeName={'Navn'} />
   </Page>
 }

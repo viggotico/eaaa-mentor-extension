@@ -1,0 +1,101 @@
+
+
+
+.calenderContainer {
+  background-color: #f4ebc0;
+  padding: 30px;
+  width: 100%;
+
+}
+
+.sample {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sampleHeader {
+  padding: 20px;
+  color: black;
+}
+
+.sampleHeader h1 {
+  font-size: inherit;
+  margin: 0;
+}
+
+.sampleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 10px;
+}
+
+.sampleContainerContent {
+  display: flex;
+  max-width: 100%;
+  flex-basis: 420px;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 1rem;
+  padding-right: 20px;
+
+
+}
+
+.sampleContainerContent .react-calendar {
+  margin: 0 auto;
+}
+
+
+
+.meetingType {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ 
+
+}
+
+.meetingTypeHeader {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.radioInput {
+  width: 20px;
+  height: 20px;
+  accent-color: #c5d6dc;
+  /* Farve på radio-knapper */
+}
+
+
+.sendButton {
+  background-color: #426574; 
+  color: white; 
+  font-size: 1.2rem; 
+  font-weight: bold; 
+  border: none; 
+  border-radius: 20px; 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  outline: none; 
+  transition: all 0.3s ease; 
+}
+
+.sendButton:hover {
+  background-color: #2e4f57; 
+}
+
+.sendButton:active {
+  transform: scale(0.95); 
+}
