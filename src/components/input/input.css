@@ -1,0 +1,51 @@
+.input,
+.input-area {
+    width: 70vw;
+    min-width: 400px;
+    max-width: 1000px;
+    padding: 15px 10px 15px 10px;
+    outline: none;
+    font-size: .875em;
+    border: 1px solid var(--main-color-teel-green);
+}
+
+.input-area {
+    height: 100px;
+    align-items: flex-start;
+}
+
+.input-short {
+    width: 100px;
+    min-width: 50px;
+    max-width: 150px;
+}
+
+.input-center-text {
+    text-align: center;
+}
+
+.input:invalid,
+.input-area:invalid {
+    border: 1px solid rgb(179, 56, 56);
+}
+
+.input-error-msg {
+    color: rgb(179, 56, 56);
+    font-size: .65em;
+}
+
+@media (max-width: 500px) {
+    .input,
+    .input-area {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+        padding: 10px 5px;
+    }
+
+    .input-short {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+    }
+}

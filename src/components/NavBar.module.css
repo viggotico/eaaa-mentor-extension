@@ -1,0 +1,82 @@
+.navWrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    animation-name: fadeIn;
+    animation-duration: 0.5;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    top: 0;
+    left: 0;
+}
+
+.navWrapper nav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    position: absolute;
+    background-color: var(--background);
+    padding-top: calc(var(--padding-common) * 1.2);
+    width: 30vw;
+    min-width: 450px;
+    max-width: 500px;
+    min-height: 100vh;
+    top: 0;
+    right: 0;
+}
+
+@media (max-width: 400px) {
+    .navWrapper nav {
+        width: 100vw;
+        min-width: unset;
+        max-width: unset;
+    }
+}
+
+.navWrapper nav ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    width: 100%;
+}
+
+.navWrapper nav ul li {
+    padding: 15px 15px 15px var(--padding-common);
+    border-bottom: 1px solid var(--secondary-color-jade-green);
+    width: 100%;
+}
+
+.navWrapper nav ul li div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.navWrapper nav ul li span {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.navWrapper nav ul li span svg {
+    fill: var(--secondary-color-jade-green);
+    height: 20px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

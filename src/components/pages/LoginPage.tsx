@@ -1,8 +1,8 @@
 import { Page } from "../Page";
-import { LoginSection } from "../sections/LoginSection";
+import { LoginCardsSection } from "../sections/LoginCardsSection";
 
 export const LoginPage = () => {
   return <Page visibility='PublicOnly'>
-    <LoginSection />
+    <LoginCardsSection />
   </Page>
 }

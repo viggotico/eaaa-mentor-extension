@@ -2,6 +2,7 @@ export { Booking, BookingPostData } from "./collections/Booking";
 export { Chat, ChatPostData } from "./collections/Chat";
 export { ChatMessage, ChatMessagePostData } from "./collections/ChatMessage";
 export { CommonApi } from "./common/CommonApi";
+export { Media } from "./common/Media";
 export { RelationSingle, RelationMany } from "./common/RelationApi";
 export { ResponseApi } from "./common/ResponseApi";
 export { Role } from "./collections/Role";

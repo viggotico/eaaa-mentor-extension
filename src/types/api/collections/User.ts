@@ -4,6 +4,7 @@ import { CommonApi, CommonApiIgnore } from "../common/CommonApi";
 import { RelationSingle, RelationMany } from "../common/RelationApi";
 import { AvailabilityComponent, AvailabilityComponentPostData } from "../components/AvailabilityComponent";
 import { Role } from "./Role";
+import { Media } from "../common/Media";
 
 export type UddannelseType =
 | 'Datamatiker'
@@ -22,6 +23,8 @@ export interface User extends CommonApi {
     name: string;
     surname: string;
     email: string;
+    avatar: Media;
+    description: string;
     provider: string;
     confirmed: boolean;
     blocked: boolean;

@@ -10,6 +10,7 @@ import {
     ChatMessage,
     ChatMessagePostData,
     ChatPostData,
+    Media,
     ResponseApi,
     User,
     UserLoginPostData,
@@ -276,6 +277,56 @@ export class ApiBackend {
                         return;
                     }).catch(err => reject(err));
             });
+        },
+    }
+
+    static upload = {
+        entryFileFormData: async (request: NextRequest, formData: FormData, token?: string) => {
+            return new Promise<Media[]>(async (resolve, reject) => {
+                if (!formData) {
+                    reject(new Error('Invalid form data.'));
+                    return;
+                }
+
+                let missingInput: string[] = [];
+                if (!formData.get('files')) missingInput.push('files');
+                if (!formData.get('ref')) missingInput.push('ref');
+                if (!formData.get('refId')) missingInput.push('refId');
+                if (!formData.get('field')) missingInput.push('field');
+                if (missingInput.length) {
+                    const prefix = missingInput.length > 1 ? 'these' : 'a';
+                    const suffix = missingInput.length > 1 ? 's' : '';
+                    reject(new Error(`Form data must include ${prefix} '${missingInput}' input${suffix}.`));
+                    return;
+                }
+
+                // const config = this.getAuthHeader({ request });
+                const contentHeaders = {
+                    'Accept': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data'
+                };
+
+                await api.post<Media[], AxiosResponse<Media[]>>('/upload', formData, {
+                    // ...config,
+                    headers: {
+                        // ...config.headers,
+                        ...contentHeaders
+                    }
+                }).then((res) => {
+                        if (this.verbose) console.log('file(s) has been uploaded!', res.data);
+                        resolve(res.data);
+                        return;
+                    }).catch(err => reject(err));
+            });
+        },
+        entryFile: async (request: NextRequest, file: Blob, entryUid: string, entryId: string | number, field: string, token?: string) => {
+            const formData = new FormData();
+            console.log('file:', file);
+            if (file) formData.append('files', file);
+            if (entryUid) formData.append('ref', entryUid);
+            if (entryId != undefined) formData.append('refId', `${entryId}`);
+            if (field) formData.append('field', field);
+            return this.upload.entryFileFormData(request, formData, token);
         },
     }
 
