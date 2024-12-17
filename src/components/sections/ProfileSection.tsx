@@ -60,8 +60,6 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
     documentId: "specific-user-id", // Skift dette ID, hvis nødvendigt
   };
 
-
-  
   // Betingelse: Kun vis chatten for specifikke brugere
   const isChatEnabled = true; // Test: Gør chat altid synlig
 
@@ -70,7 +68,7 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
   return (
     <Section
       visibility="Public" // Kan justeres
-      bgColor="--main-color-teel-green: #80b4bf" // Sektionens baggrundsfarve
+      bgColor="--secondary-color-quiet-gray: #f3f4f7" // Sektionens baggrundsfarve
       gap="15px"
       flexDirection="column"
     >
@@ -94,7 +92,7 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
         </div>
       </div>
 
-{/* Chat */}
+      {/* Chat */}
       <section>
         <div className={styles.chatContainer}>
           <button onClick={toggleChat} className={styles.chatButton}>

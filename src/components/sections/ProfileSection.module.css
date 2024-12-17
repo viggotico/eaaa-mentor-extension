@@ -189,8 +189,8 @@
 .chatButton {
   position: absolute; /* Sørg for, at knappen er placeret i forhold til chatContainer */
   bottom: 90px; /* Afstand fra bunden */
-  left: 450px; /* Flyt knappen mod højre */
-  background-color: #0078d4;
+  left: 430px; /* Flyt knappen mod højre */
+  background-color: #80b4bf;
   color: #fff;
   border: none;
   padding: 50px 70px;
