@@ -1,0 +1,143 @@
+.searchContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #e2e2ea; 
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+  }
+  
+  .searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .searchButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .searchIcon {
+    font-size: 18px;
+    color: #333;
+  }
+  
+
+
+/* Grid layout */
+.mentorGrid {
+    justify-content: center;
+    align-items: stretch; /* Strækker kortene vertikalt */
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+
+  /* kort */
+  
+  .mentorCard {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    width: 300px; /* Ens bredde til alle kort */
+  }
+  
+  .mentorImage {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .mentorStatus {
+    background-color: #28a745;
+    color: white;
+    padding: 5px 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .unavailable .mentorStatus {
+    background-color: #dc3545; /* Rød for ikke tilgængelig */
+  }
+  
+  .mentorCard h2 {
+    margin: 10px 0 5px;
+    font-size: 20px;
+  }
+  
+  .mentorCard p {
+    color: black;
+    font-size: 16px;
+  }
+  
+  .tagContainer {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+  }
+  
+  .tag {
+    display: inline-block;
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  
+  .nameContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 20px 20px; */
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 50px;
+  }
+  .leftArrow{
+    color: white;
+    background-color: #3A646D;
+    border-radius: 50%;
+    font-size: 20px;
+    padding: 4px;
+
+  }
+
+  .roleContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center; /* Centrerer elementerne vertikalt */
+    gap: 5px;
+    font-size: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-weight: bold;
+    line-height: 1; /* Ensartet linjehøjde */
+    font-weight: 400;
+}
+
+.schoolIcon {
+    font-size: 22px;
+    align-self: center; /* Sikrer, at ikonet også centrerer sig selv */
+}

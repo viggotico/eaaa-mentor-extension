@@ -1,18 +1,60 @@
-import { ApiFrontend } from "@/services/api/ApiFrontend"; // brug dette class til at få den nuværende bruger's data fx ApiFrontend.currentUser eller til at kalde på backend API's fx ApiFrontend.users.getAll()
+import React from "react";
+import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { Section } from "@/components/Section";
-import styles from "./ChatsSection.module.css"; // brug dette object til css
+import styles from "./ChatsSection.module.css";
 
-export const ChatsSection = () => {
+
+export const ChatsSection = ({ onSelectChat }) => {
+  // Mock-data for chats
+  const mockChats = [
+    {
+      id: "chat1",
+      participants: [{ id: "user1", name: "User 1" }],
+      lastMessage: "Hej, jeg har nogle udfordringer med...",
+      lastMessageTime: "10:00 AM",
+    },
+    {
+      id: "chat2",
+      participants: [{ id: "user2", name: "User 2" }],
+      lastMessage: "Hej, jeg har nogle udfordringer med...",
+      lastMessageTime: "9:30 AM",
+    },
+    {
+      id: "chat3",
+      participants: [{ id: "user1", name: "User 3" }],
+      lastMessage: "Hej, jeg har nogle udfordringer med...",
+      lastMessageTime: "10:00 AM",
+    },
+   
+  ];
+
   return (
-    // <Section> komponenten er en flexbox med flex-direction: row og en gap på 15px
     <Section
-      visibility='Private' // her kan du ændre hvem der har adgang til sektionen
-      bgColor='--secondary-color-quiet-gray: #f3f4f7' // her kan du ændre baggrundsfarve til sektionen
-      gap='15px' // normale værdi er '15px'
-      flexDirection='column' // normale værdi er 'column'
+      visibility="Public"
+      bgColor="--secondary-color-quiet-gray: #f3f4f7"
+      gap="15px"
+      flexDirection="column"
     >
-      {/* Skriv dit indhold herinde */}
-      <h1>Dine chats</h1>
+      <div className={styles.chatHeader}>
+      <h1 >Dine chats</h1>
+      </div>
+      <ul className={styles.chatList}>
+        {mockChats.map((chat) => (
+          <li
+            key={chat.id}
+            className={styles.chatItem}
+            onClick={() => onSelectChat(chat.id, chat.participants[0].name)} // Pass chatId and menteeName
+
+
+          >
+            <div>
+              <strong>{chat.participants[0].name}</strong>
+              <p>{chat.lastMessage}</p>
+            </div>
+            <span>{chat.lastMessageTime}</span>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
-}
+};

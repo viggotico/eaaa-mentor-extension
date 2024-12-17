@@ -1,0 +1,22 @@
+
+.submitContainer{
+    background-color: #F4EBC0;
+    width: 100%;
+    padding: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+.done{
+   font-size: 2rem;
+}
+.submitTekst{
+    color: #3A646D;
+    font-size: 1rem;
+}
