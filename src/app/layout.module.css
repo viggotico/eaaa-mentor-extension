@@ -84,6 +84,13 @@
   height: var(--padding-common);
 }
 
+@media (max-width: 960px) {
+  .headerLeft,
+  .headerRight {
+    background-color: transparent;
+  }
+}
+
 .headerIcon {
   align-items: center;
   background-color: #f3f4f7;

@@ -85,7 +85,7 @@ export class ApiFrontend {
     // methods
 
     static auth = {
-        register: async (data: UserRegisterPostData) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
+        register: async (data: Partial<UserRegisterPostData>) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
         login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => this.currentUser = res.data),
         loginAuto: async () => api.get<User>('/auth/session').then(res => this.currentUser = res.data),
         logout: async () => {
@@ -125,7 +125,7 @@ export class ApiFrontend {
                     'Content-Type': 'multipart/form-data'
                 },
             }).then(res => res.data),
-        entryFile: async (file: Blob, entryUid: string, entryId: string | number, field: string) =>
+        entryFile: async (file: Blob, entryUid: 'plugin::users-permissions.user', entryId: string | number, field: string) =>
             await api.post<Media[], AxiosResponse<Media[]>>('/upload/file', { file, entryUid, entryId, field }).then(res => res.data),
     }
 

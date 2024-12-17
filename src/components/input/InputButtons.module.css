@@ -1,0 +1,21 @@
+.button {
+    padding: 15px;
+    background-color: var(--secondary-color-jade-green);
+    color: var(--background);
+    font-size: .875em;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--main-color-teel-green);
+}
+
+@media (max-width: 600px) {
+    .button {
+        border-radius: 5px;
+        /* padding: 7px; */
+    }
+}

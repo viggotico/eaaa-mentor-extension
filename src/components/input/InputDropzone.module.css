@@ -1,0 +1,46 @@
+.inputDropzoneWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inputDropzone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    width: 70vw;
+    min-width: 400px;
+    max-width: 1000px;
+    border-radius: 15px;
+    border: 2px dashed var(--secondary-color-jade-green);
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.inputDropzone input {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.inputDropzone span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.inputDropzone:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.errorMsg {
+    color: rgb(179, 56, 56);
+    font-size: .65em;
+}

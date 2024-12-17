@@ -1,0 +1,21 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputFullWidth {
+    width: 100%;
+}
+
+.inputGroup span {
+    margin-top: 3px;
+}
+
+@media (max-width: 500px) {
+    .inputGroup {
+        width: 100%;
+    }
+    .input span {
+        margin-top: 2px;
+    }
+}

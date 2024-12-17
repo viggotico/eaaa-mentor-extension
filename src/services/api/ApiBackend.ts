@@ -300,7 +300,7 @@ export class ApiBackend {
                     return;
                 }
 
-                const validToken = token ?? this.getToken(request);
+                const validToken = token ?? this.getToken(request, true);
                 if (!validToken) {
                     if (this.verbose) console.log('cannot upload file(s) due to invalid session.');
                     reject(new Error('Cannot upload file(s) due to invalid session.'));
