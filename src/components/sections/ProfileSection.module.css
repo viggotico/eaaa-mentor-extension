@@ -1,61 +1,277 @@
-.main{
-    width: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+.main {
+  display: flex; /* Flexbox for centrering */
+  justify-content: center; /* Centrerer vandret */
+  align-items: center; /* Centrerer lodret */
+  height: 70vh; /* Sørg for, at sektionen fylder hele skærmens højde */
 }
 
 .profileContainer {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background-color: var(--secondary-color-quiet-gray, #f3f4f7);
-  border-radius: 8px;
+  flex-direction: column; /* Sæt profilinfo og billede i kolonne */
+  align-items: center; /* Centrerer indholdet vandret */
+  gap: 20px; /* Plads mellem elementerne */
+  text-align: center; /* Centrerer teksten */
 }
-
+/* 
 @media screen and (min-width: 960px) {
     .profileContainer {
         flex-direction: row;
-        width: 30%;
+        width: 35%;
+        height: 470px;
     }
     
-}
+} */
 
 .header {
- flex-direction: row;
- width: 100%;
+  flex-direction: row;
+  width: 100%;
   font-size: 3.2rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px; /* Laver plads under overskriften */
-  color: #333; /* Juster farven */
+  margin-bottom: 30px; /* Laver plads under overskriften */
+  color: hsl(0, 0%, 0%); /* Juster farven */
 }
 
 .profileImage {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 400px;
+  height: 400px;
+  border-radius: 30%;
   object-fit: cover;
-  border: 2px solid #ccc;
+  border: 6px solid #ccc;
 }
 
 .profileInfo {
   display: flex;
   flex-direction: column;
+  margin-left: 3%;
 }
 
+/* Booking */
 .userName {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   margin: 0;
+  line-height: 1.5em;
 }
 
 .userDetails {
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin: 5px 0;
+  line-height: 1.5em;
 }
 
 .userTitle {
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   font-style: italic;
   color: #666;
+  font-weight: bold;
+}
+.bookingsSection {
+  margin: 50px auto; /* Centrerer containeren */
+  padding: 20px;
+  background-color: var(--secondary-color-quiet-gray, #f3f4f7);
+  border-radius: 8px;
+  width: 100%; /* Gør bredden større */
+  max-width: 1200px; /* Sætter en maksimum-bredde */
+  height: auto; /* Højden justeres efter indhold */
+}
+
+.bookingsHeader {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Cards Container */
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centrerer kortene */
+  gap: 30px; /* Gør afstand mellem kortene større */
+  padding: 30px;
+  background-color: #f9f9f9; /* Lys baggrund for kontrast */
+  border-radius: 12px;
+}
+
+/* Individual Card */
+.card {
+  background-color: #ffffff; /* Hvid baggrund for et clean look */
+  border-radius: 15px;
+  padding: 20px;
+  width: 280px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Let skygge */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Glidende effekt */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card:hover {
+  transform: translateY(-10px); /* Løfter kortet lidt */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Forstærket skygge */
+}
+
+/* Card Content */
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.info p {
+  font-size: 1rem;
+  color: #333; /* Mørkere tekstfarve */
+  margin: 5px 0;
+  text-align: center;
+}
+
+.info strong {
+  color: #0078d4; /* Fremhævet blå farve */
+}
+
+.details {
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+/* Status Icon with Badge */
+.statusIcon {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.statusIcon span {
+  display: flex;
+  align-items: right;
+  justify-content: flex-end;
+  width: 100px;
+  height: 40px;
+  background-color: #e6f7ff; /* Lys blå baggrund */
+  color: #0078d4; /* Matchende blå farve */
+  font-size: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileIcon {
+  font-size: 3rem;
+}
+
+.info {
+  text-align: left;
+  width: 100%;
+}
+
+.details {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.statusIcon {
+  margin-top: 10px;
+  font-size: 2rem;
+  color: green;
+}
+/* Chat */
+.chatContainer {
+  position: relative; /* Referenceramme for .chatButton */
+  height: 100px; /* Tilføj højde, hvis nødvendigt */
+  display: flex;
+  justify-content: flex-end; /* Flyt indhold mod højre */
+  align-items: center;
+}
+
+.chatButton {
+  position: absolute; /* Sørg for, at knappen er placeret i forhold til chatContainer */
+  bottom: 90px; /* Afstand fra bunden */
+  left: 430px; /* Flyt knappen mod højre */
+  background-color: #80b4bf;
+  color: #fff;
+  border: none;
+  padding: 50px 70px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1.4rem;
+  z-index: 1000; /* Sørg for, at knappen er øverst */
+}
+
+.chatBox {
+  position: absolute;
+  bottom: 60px;
+  right: 10px;
+  background-color: #fff;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  background-color: #0078d4;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.chatMessages {
+  padding: 10px;
+  height: 150px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.message {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.chatInput {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.chatInput input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chatInput button {
+  margin-left: 50px;
+  background-color: #0078d4;
+  color: #fff;
+  border: none;
+  padding: 15px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* sort steg */
+
+.horizontalLine {
+  width: 100%; /* Gør linjen fuld bredde */
+  height: 5px; /* Bestem tykkelsen på linjen */
+  background-color: #000; /* Sort farve til linjen */
+  margin: 20px 0; /* Plads over og under linjen */
 }
