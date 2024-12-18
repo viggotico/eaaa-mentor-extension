@@ -193,7 +193,8 @@ form {
   }
 }
 
-.auth-status {
+.auth-status,
+.loading-screen {
   z-index: 10;
   width: 100vw;
   height: fit-content;

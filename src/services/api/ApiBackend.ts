@@ -211,7 +211,7 @@ export class ApiBackend {
         },
         login: async (request: NextRequest, response: Response, email: string, password: string) => {
             return new Promise<User>(async (resolve, reject) => {
-                const validEmail = await this.validateEmail(email, reject, true);
+                const validEmail = await this.validateEmail(email, reject, false);
                 const validPassword = this.validatePassword(password, reject);
                 if (!validEmail || !validPassword) return;
                 api.post<UserLoginRegisterResponse, AxiosResponse<UserLoginRegisterResponse>, UserLoginPostData>('/auth/local', { identifier: email.trim(), password: password.trim() })
@@ -244,7 +244,7 @@ export class ApiBackend {
         },
         forgotPassword: async (email: string) => {
             return new Promise<void>(async (resolve, reject) => {
-                const validEmail = await this.validateEmail(email, reject, true);
+                const validEmail = await this.validateEmail(email, reject, false);
                 if (!validEmail) return;
                 api.post<void, AxiosResponse<void>>('/auth/forgot-password', { email })
                     .then((res) => {

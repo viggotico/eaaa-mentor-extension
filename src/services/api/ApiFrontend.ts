@@ -16,6 +16,7 @@ import {
     UserPostData,
     UserRegisterPostData
 } from "../../types/api";
+import { LoadingScreenHelper } from "@/components/LoadingScreen";
 
 const api: AxiosInstance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ?
@@ -26,6 +27,21 @@ const api: AxiosInstance = axios.create({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
+});
+
+api.interceptors.request.use((config) => {
+    LoadingScreenHelper.show = true;
+    return config;
+}, (err) => {
+    LoadingScreenHelper.show = false;
+    return Promise.reject(err);
+});
+
+api.interceptors.response.use((res) => {
+    return res;
+}, (err) => {
+    LoadingScreenHelper.show = false;
+    return Promise.reject(err);
 });
 
 const getQuery = (obj: object | undefined) =>
@@ -87,11 +103,22 @@ export class ApiFrontend {
     // methods
 
     static auth = {
-        register: async (data: Partial<UserRegisterPostData>) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
-        login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => {
-            localStorage.setItem('session', 'true');
-            return this.currentUser = res.data;
-        }),
+        register: async (data: Partial<UserRegisterPostData>) => {
+            LoadingScreenHelper.show = true;
+            return api.post<User>('/auth/register', data).then(res => {
+                LoadingScreenHelper.show = false;
+                this.currentUser = res.data;
+                return res.data;
+            });
+        },
+        login: async (email: string, password: string) => {
+            LoadingScreenHelper.show = true;
+            return api.post<User>('/auth/login', { email, password }).then(res => {
+                LoadingScreenHelper.show = false;
+                localStorage.setItem('session', 'true');
+                return this.currentUser = res.data;
+            });
+        },
         loginAuto: async () => {
             try {
                 const user = await api.get<User>('/auth/session').then(res => res.data);
@@ -105,10 +132,15 @@ export class ApiFrontend {
             }
         },
         logout: async () => {
+            LoadingScreenHelper.show = true;
             const canLogout = api.get<boolean>('/auth/logout').then(res => res.data);
-            if (!canLogout) return false;
+            if (!canLogout) {
+                LoadingScreenHelper.show = false;
+                return false;
+            }
             this.currentUser = null;
             localStorage.removeItem('session');
+            LoadingScreenHelper.show = false;
             return true;
         },
         forgotPassword: async (email: string) =>

@@ -11,6 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { FooterSection } from "@/components/sections/FooterSection";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import { NavBar } from "@/components/NavBar";
 
 interface RootLayoutProps {
@@ -73,6 +74,7 @@ export default ({ children }: RootLayoutProps) => {
               Logged in as {currentUser?.name} ({currentUser?.type})
             </div> : <></>
         } */}
+        <LoadingScreen />
       </body>
     </html>
   );
