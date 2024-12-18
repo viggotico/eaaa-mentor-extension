@@ -14,8 +14,8 @@ export const FooterSection = () => {
             <Link href='/#chat'><p>Chat</p></Link>
           </> :
           <>
-            <Link href='/#intro'><p>Intro</p></Link>
-            <Link href='/#about-us'><p>Om os</p></Link>
+            <Link href='/'><p>Intro</p></Link>
+            <Link href='/'><p>Om os</p></Link>
           </>
       }
     </div>

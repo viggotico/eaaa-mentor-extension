@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { Section } from "@/components/Section";

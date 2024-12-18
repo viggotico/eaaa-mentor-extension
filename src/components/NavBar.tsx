@@ -18,8 +18,8 @@ export const NavBar = () => {
                   <span><Link href='/#chat'><p>Chat</p></Link><ArrowForwardIosIcon /></span>
                 </> :
                 <>
-                  <span><Link href='/#intro'><p>Intro</p></Link><ArrowForwardIosIcon /></span>
-                  <span><Link href='/#about-us'><p>Om os</p></Link><ArrowForwardIosIcon /></span>
+                  <span><Link href='/'><p>Intro</p></Link><ArrowForwardIosIcon /></span>
+                  <span><Link href='/'><p>Om os</p></Link><ArrowForwardIosIcon /></span>
                 </>
             }
           </div>
