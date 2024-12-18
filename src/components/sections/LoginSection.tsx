@@ -8,7 +8,7 @@ import { User } from "@/types/api";
 import { Form } from "../input/Form";
 import { InputText } from "../input/InputText";
 import { InputButtons } from "../input/InputButtons";
-import { getHomeUrl } from "@/services/StringUtils";
+import { getHomeUrl } from "@/services/StringUtilsFront";
 import styles from "./LoginSection.module.css";
 
 interface LoginSectionProps {

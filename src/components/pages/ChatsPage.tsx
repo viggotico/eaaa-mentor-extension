@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ChatsSection } from "../sections/ChatsSection";
 import { ChatSessionSection } from "../sections/ChatSessionSection";
 import styles from "../sections/ChatsSection.module.css";
+import { ApiFrontend } from "@/services/api/ApiFrontend";
 
 export const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState({ chatId: null, menteeName: "" });
@@ -12,6 +13,8 @@ export const ChatsPage = () => {
   const handleBack = () => {
     setSelectedChat({ chatId: null, menteeName: "" });
   };
+
+  if (!ApiFrontend.currentUser) return <></>;
 
 
   return (

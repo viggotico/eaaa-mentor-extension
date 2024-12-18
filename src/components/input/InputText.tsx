@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from "react";
-import { randomString } from "@/services/StringUtils";
+import { randomString } from "@/services/StringUtilsFront";
 import "./input.css";
 import styles from "./InputText.module.css";
 

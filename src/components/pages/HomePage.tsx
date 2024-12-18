@@ -4,11 +4,9 @@ import React, { useState } from "react";
 import { Page } from "../Page";
 import { LoginCardsSection } from "../sections/LoginCardsSection";
 import { AboutUsSection } from "../sections/AboutUsSection";
-import {CalenderSection} from "../sections/CalenderSection"
-import {CalenderSubmit} from "../sections/CalenderSubmitSection"
-import {FindAMentorSection} from "../sections/FindAMentorSection"
+import { CalenderSection } from "../sections/CalenderSection"
+import { CalenderSubmit } from "../sections/CalenderSubmitSection"
 import { ProfileSection } from "../sections/ProfileSection";
-import { BookingSection } from "../sections/BookingSection";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { ChatsPage } from "./ChatsPage";
 import styles from "../sections/ChatsSection.module.css";
@@ -18,9 +16,9 @@ export const HomePage = () => {
 
 
   const handleShowSubmit = () => {
-    setShowSubmit(true);     
+    setShowSubmit(true);
     setTimeout(() => {
-      setShowSubmit(false); 
+      setShowSubmit(false);
     }, 2000);
   };
   return (
@@ -28,22 +26,21 @@ export const HomePage = () => {
       <LoginCardsSection />
       <AboutUsSection />
       <ProfileSection user={undefined} />
-      <BookingSection />
+      {/* <BookingSection /> */}
       <br />
       <ChatsPage />
       <br />
-      {/* <CalenderSection/>
-      <CalenderSubmit/> */}
-      <div>
-      {showSubmit ? (
-        <CalenderSubmit />
-      ) : (
-        <CalenderSection onSendClick={handleShowSubmit} />
-      )}
-    </div>
-
-    <br />
-    <FindAMentorSection />
+      {
+        !ApiFrontend.currentUser || ApiFrontend.currentUser?.type === 'Mentor' ?
+          <></> :
+          <div>
+            {showSubmit ? (
+              <CalenderSubmit />
+            ) : (
+              <CalenderSection onSendClick={handleShowSubmit} />
+            )}
+          </div>
+      }
     </Page>
   );
 };

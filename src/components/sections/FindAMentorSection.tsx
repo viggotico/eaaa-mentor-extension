@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react"; // Importér useState til håndtering af input
 import { Section } from "@/components/Section";
 import styles from "./FindAMentorSection.module.css";

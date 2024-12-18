@@ -43,7 +43,7 @@ const bookings: Booking[] = [
   },
 ];
 
-export const ProfileSection = async ({ user }: ProfileSectionProps) => {
+export const ProfileSection = ({ user }: ProfileSectionProps) => {
   const [chatOpen, setChatOpen] = useState(false); // Chat-tilstand
 
   const toggleChat = () => {
@@ -67,7 +67,7 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
 
   return (
     <Section
-      visibility="Public" // Kan justeres
+      visibility="Private" // Kan justeres
       bgColor="--secondary-color-quiet-gray: #f3f4f7" // Sektionens baggrundsfarve
       gap="15px"
       flexDirection="column"
@@ -125,42 +125,46 @@ export const ProfileSection = async ({ user }: ProfileSectionProps) => {
       <div className={styles.horizontalLine}></div>
 
       {/* Booking-sektionen */}
-      <div className={styles.bookingsSection}>
-        <h2 className={styles.bookingsHeader}>Dine Bookinger</h2>
-        <div className={styles.cardsContainer}>
-          {bookings.map((booking, index) => (
-            <div key={index} className={styles.card}>
-              <div className={styles.cardContent}>
-                <div className={styles.profileIcon}>
-                  <span role="img" aria-label="user">
-                    👤
-                  </span>
+      {
+        ApiFrontend.currentUser?.type === 'Mentor' ?
+          <div className={styles.bookingsSection}>
+            <h2 className={styles.bookingsHeader}>Dine Bookinger</h2>
+            <div className={styles.cardsContainer}>
+              {bookings.map((booking, index) => (
+                <div key={index} className={styles.card}>
+                  <div className={styles.cardContent}>
+                    <div className={styles.profileIcon}>
+                      <span role="img" aria-label="user">
+                        👤
+                      </span>
+                    </div>
+                    <div className={styles.info}>
+                      <p>
+                        <strong>Navn:</strong> {booking.name}
+                      </p>
+                      <p>
+                        <strong>Alder:</strong> {booking.age}
+                      </p>
+                      <p>{booking.semester}</p>
+                    </div>
+                    <div className={styles.details}>
+                      <p>
+                        <strong>Ønsker:</strong> {booking.preference}
+                      </p>
+                      <p>{booking.dateTime}</p>
+                    </div>
+                    <div className={styles.statusIcon}>
+                      <span role="img" aria-label="check">
+                        ✅ 🚫
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.info}>
-                  <p>
-                    <strong>Navn:</strong> {booking.name}
-                  </p>
-                  <p>
-                    <strong>Alder:</strong> {booking.age}
-                  </p>
-                  <p>{booking.semester}</p>
-                </div>
-                <div className={styles.details}>
-                  <p>
-                    <strong>Ønsker:</strong> {booking.preference}
-                  </p>
-                  <p>{booking.dateTime}</p>
-                </div>
-                <div className={styles.statusIcon}>
-                  <span role="img" aria-label="check">
-                    ✅ 🚫
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div> :
+          <></>
+      }
     </Section>
   );
 };

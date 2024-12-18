@@ -3,7 +3,7 @@
 import { Page } from "@/components/Page";
 import { Section } from "@/components/Section";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
-import { getHomeUrl } from "@/services/StringUtils";
+import { getHomeUrl } from "@/services/StringUtilsFront";
 import { useEffect } from "react";
 
 export default function LogoutPage() {

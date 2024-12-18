@@ -13,7 +13,7 @@ import { InputSelectGroup } from "../input/InputSelectGroup";
 import { InputTagGroup } from "../input/InputTagGroup";
 import { InputTimeTable } from "../input/InputTimeTable";
 import { InputDropzone } from "../input/InputDropzone";
-import { getHomeUrl } from "@/services/StringUtils";
+import { getHomeUrl } from "@/services/StringUtilsFront";
 import styles from "./RegisterSection.module.css";
 
 interface LoginSectionProps {
