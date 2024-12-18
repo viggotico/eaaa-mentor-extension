@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { type NextRequest } from "next/server";
 import { randomString } from "../StringUtils";
@@ -58,7 +59,11 @@ export class ApiBackend {
         if (!checkHeader) return cookieToken;
         return (request.headers?.get('Authorization') ?? request.headers?.get('authorization'))?.split(' ')[1] ?? cookieToken;
     }
-    private static removeToken = (request: NextRequest) => request.cookies.delete('token');
+    private static removeToken = async (request: NextRequest) => {
+        const cookieStore = await cookies();
+        cookieStore.delete('token');
+        request.cookies.delete('token');
+    }
     private static setToken = (response: Response, token: string) => {
         const maxAge = 2592000; // 30 days
         const prod = process.env.NODE_ENV === 'production';
@@ -233,7 +238,7 @@ export class ApiBackend {
                 if (this.verbose) console.error('user is already logged out!');
                 return false;
             }
-            this.removeToken(request);
+            await this.removeToken(request);
             if (this.verbose) console.log('successfully logged out!');
             return true;
         },

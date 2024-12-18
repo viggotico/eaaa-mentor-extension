@@ -1,4 +1,5 @@
-import { ApiFrontend } from "@/services/api/ApiFrontend";
+'use client'
+
 import { Section } from "@/components/Section";
 import styles from "./CalenderSection.module.css";
 
@@ -34,7 +35,7 @@ export const CalenderSection = ({ onSendClick }: CalenderSectionProps) => {
 
   return (
     <Section
-      visibility="Public"
+      visibility="Mentee"
       bgColor="--secondary-color-quiet-gray: #f3f4f7"
       gap="15px"
       flexDirection="column"
@@ -56,7 +57,7 @@ export const CalenderSection = ({ onSendClick }: CalenderSectionProps) => {
             </main>
 
             <div className={styles.meetingType}>
-              <h3 className={styles.meetingTypeHeader}>mødetype</h3>
+              <h3 className={styles.meetingTypeHeader}>Mødetype</h3>
               <label className={styles.radioOption}>
                 <input
                   type="radio"

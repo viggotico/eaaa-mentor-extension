@@ -1,3 +1,5 @@
+'use client'
+
 import { Section } from "@/components/Section";
 import { CardCallToAction } from "@/components/CardCallToAction";
 import styles from "./LoginCardsSection.module.css";

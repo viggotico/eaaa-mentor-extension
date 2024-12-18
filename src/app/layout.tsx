@@ -1,7 +1,8 @@
 'use client'
 
-
 import "./globals.css";
+import { useEffect } from "react";
+import { useSession } from "@/hooks/useSession";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import styles from "./layout.module.css";
 
@@ -11,7 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import { FooterSection } from "@/components/sections/FooterSection";
 import { NavBar } from "@/components/NavBar";
-import { useEffect } from "react";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -23,11 +23,19 @@ export default ({ children }: RootLayoutProps) => {
     const nav = document.getElementById('nav');
     nav?.style.setProperty('display', nav.style.display === 'flex' ? 'none' : 'flex');
   }
+  
+  const { loggedIn, currentUser, setLoggedIn, setCurrentUser } = useSession();
 
   useEffect(() => {
     document.title = 'Mentorordning - EAAA';
+    console.log('attempting to auto login...', !!ApiFrontend.currentUser);
+    // const validSession = localStorage.getItem('session');
     if (ApiFrontend.currentUser) return;
-    ApiFrontend.auth.loginAuto();
+    ApiFrontend.auth.loginAuto()
+      .then(user => {
+        setLoggedIn(!!user);
+        setCurrentUser(user ?? null);
+      });
   }, []);
   
   return (
@@ -36,7 +44,7 @@ export default ({ children }: RootLayoutProps) => {
         <div className={styles.layout}>
           <header className={styles.mainHeader}>
             <div className={styles.header}>
-              <Link href='/' className={styles.headerLogoLink}>
+              <Link id='header-logo' href='/' className={styles.headerLogoLink}>
                 <img src="/logo-da-small.svg" alt="Erhvervsakademi Aarhus Logo" />
               </Link>
               <div className={styles.headerSticky}>
@@ -59,6 +67,12 @@ export default ({ children }: RootLayoutProps) => {
           </main>
         </div>
         <FooterSection />
+        {/* {
+          loggedIn ?
+            <div className='auth-status'>
+              Logged in as {currentUser?.name} ({currentUser?.type})
+            </div> : <></>
+        } */}
       </body>
     </html>
   );

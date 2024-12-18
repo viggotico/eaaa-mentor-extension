@@ -192,3 +192,16 @@ form {
     align-items: center;
   }
 }
+
+.auth-status {
+  z-index: 10;
+  width: 100vw;
+  height: fit-content;
+  padding: 15px;
+  font-size: .75em;
+  background-color: var(--secondary-color-butter-yellow);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}

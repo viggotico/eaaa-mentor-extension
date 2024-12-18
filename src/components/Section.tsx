@@ -1,7 +1,9 @@
-import React, { useMemo } from "react";
-import { ApiFrontend } from "@/services/api/ApiFrontend";
+'use client'
+
+import React from "react";
 import { CssColor } from "@/types/css-color";
 import { ContentVisibility } from "@/types/content-visibility";
+import { useSession } from "@/hooks/useSession";
 
 interface SectionProps extends ContentVisibility {
     children?: React.ReactNode;
@@ -11,26 +13,25 @@ interface SectionProps extends ContentVisibility {
 }
 
 export const Section = ({ children, visibility, bgColor, gap, flexDirection }: SectionProps) => {
-    const sectionContent = useMemo(() => {
-        const backgroundColor = `var(${bgColor.split(': ')[0]})`;
-        if (visibility !== 'Public') {
-            if (visibility === 'Mentor' || visibility === 'Mentee') {
-                if (!ApiFrontend.currentUser) return <></>;
-                switch (visibility) {
-                    case 'Mentor':
-                        if (ApiFrontend.currentUser.type === 'Mentor') break;
-                        return <></>;
-                    case 'Mentee':
-                        if (ApiFrontend.currentUser.type === 'Mentee') break;
-                        return <></>;
-                }
-            } else if (visibility === 'Private' && !ApiFrontend.currentUser) return <></>;
-            else if (visibility === 'PublicOnly' && ApiFrontend.currentUser) return <></>;
-        }
-        return <section className='section' style={{ backgroundColor, gap, flexDirection }}>
-            {children ?? <></>}
-        </section>;
-    }, [children, visibility, bgColor, gap, flexDirection, ApiFrontend.currentUser]);
+    const { loggedIn, currentUser } = useSession();
 
-    return sectionContent;
+    const backgroundColor = `var(${bgColor.split(': ')[0]})`;
+    if (visibility !== 'Public') {
+        if (visibility === 'Mentor' || visibility === 'Mentee') {
+            if (!loggedIn) return <></>;
+            switch (visibility) {
+                case 'Mentor':
+                    if (currentUser?.type === 'Mentor') break;
+                    return <></>;
+                case 'Mentee':
+                    if (currentUser?.type === 'Mentee') break;
+                    return <></>;
+            }
+        } else if (visibility === 'Private' && !currentUser) return <></>;
+        else if (visibility === 'PublicOnly' && currentUser) return <></>;
+    }
+
+    return <section className='section' style={{ backgroundColor, gap, flexDirection }}>
+        {children ?? <></>}
+    </section>;
 }

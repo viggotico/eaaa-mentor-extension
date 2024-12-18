@@ -1,7 +1,8 @@
+'use client'
+
 import { Page } from "../Page";
 import { SingleItem } from "@/types/single-item";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
-import { ChatSessionSection } from "../sections/ChatSessionSection";
 import { Section } from "../Section";
 import { NotFoundPage } from "./NotFoundPage";
 

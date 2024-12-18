@@ -1,3 +1,5 @@
+'use client'
+
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import qs from 'qs';
 
@@ -86,17 +88,27 @@ export class ApiFrontend {
 
     static auth = {
         register: async (data: Partial<UserRegisterPostData>) => api.post<User>('/auth/register', data).then(res => this.currentUser = res.data),
-        login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => this.currentUser = res.data),
+        login: async (email: string, password: string) => api.post<User>('/auth/login', { email, password }).then(res => {
+            localStorage.setItem('session', 'true');
+            return this.currentUser = res.data;
+        }),
         loginAuto: async () => {
             try {
-                const user = await api.get<User>('/auth/session').then(res => this.currentUser = res.data);
+                const user = await api.get<User>('/auth/session').then(res => res.data);
+                this.currentUser = user;
+                console.log('successfully auto logged in as', user.name);
+                localStorage.setItem('session', 'true');
                 return user;
-            } catch (e) { }
+            } catch (e) {
+                console.log('failed to auto login...');
+                return undefined;
+            }
         },
         logout: async () => {
             const canLogout = api.get<boolean>('/auth/logout').then(res => res.data);
             if (!canLogout) return false;
             this.currentUser = null;
+            localStorage.removeItem('session');
             return true;
         },
         forgotPassword: async (email: string) =>

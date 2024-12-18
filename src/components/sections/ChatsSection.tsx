@@ -1,10 +1,12 @@
+'use client'
+
 import React from "react";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { Section } from "@/components/Section";
 import styles from "./ChatsSection.module.css";
 
 
-export const ChatsSection = ({ onSelectChat }) => {
+export const ChatsSection = ({ onSelectChat }: { onSelectChat: any }) => {
   // Mock-data for chats
   const mockChats = [
     {

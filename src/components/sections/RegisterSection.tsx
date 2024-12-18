@@ -13,7 +13,7 @@ import { InputSelectGroup } from "../input/InputSelectGroup";
 import { InputTagGroup } from "../input/InputTagGroup";
 import { InputTimeTable } from "../input/InputTimeTable";
 import { InputDropzone } from "../input/InputDropzone";
-import { getHomeUrl } from "@/services/StringUtilsFront";
+import { goHome } from "@/services/StringUtilsFront";
 import styles from "./RegisterSection.module.css";
 
 interface LoginSectionProps {
@@ -117,8 +117,6 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               if (user) {
                 RegisterError.msg = undefined;
                 console.log('Successfully logged in as', `${user.name}!`);
-                const homeUrl = getHomeUrl()!;
-
                 const avatarFormData = new FormData();
                 avatarFormData.append('files', file);
                 avatarFormData.append('ref', 'plugin::users-permissions.user');
@@ -128,10 +126,10 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
                   .then(media => {
                     RegisterError.msg = undefined;
                     console.log('Successfully updated', `${user.name}'s avatar!`, media[0]);
-                    window.location.href = homeUrl;
+                    goHome();
                   }).catch(e => {
                     RegisterError.msg = `Failed to set user avatar. ${e.message}`;
-                    window.location.href = homeUrl;
+                    goHome();
                   });
               } else {
                 RegisterError.msg = 'Failed to create user due to invalid user data.';

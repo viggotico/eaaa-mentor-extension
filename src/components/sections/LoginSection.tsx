@@ -8,7 +8,7 @@ import { User } from "@/types/api";
 import { Form } from "../input/Form";
 import { InputText } from "../input/InputText";
 import { InputButtons } from "../input/InputButtons";
-import { getHomeUrl } from "@/services/StringUtilsFront";
+import { goHome } from "@/services/StringUtilsFront";
 import styles from "./LoginSection.module.css";
 
 interface LoginSectionProps {
@@ -43,7 +43,7 @@ export const LoginSection = ({ type }: LoginSectionProps) => {
             if (user) {
               LoginError.msg = undefined;
               console.log('Successfully logged in as', `${user.name}!`);
-              window.location.href = getHomeUrl()!;
+              goHome();
             } else {
               LoginError.msg = 'Failed to login due to invalid user.';
               console.error(LoginError.msg);

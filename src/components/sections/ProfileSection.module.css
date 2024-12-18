@@ -35,11 +35,14 @@
 }
 
 .profileImage {
-  width: 400px;
-  height: 400px;
+  width: 70%;
+  height: 70%;
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 300px;
+  max-height: 300px;
   border-radius: 30%;
   object-fit: cover;
-  border: 6px solid #ccc;
 }
 
 .profileInfo {

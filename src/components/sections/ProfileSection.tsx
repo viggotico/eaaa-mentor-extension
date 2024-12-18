@@ -1,6 +1,5 @@
 "use client";
 
-import { SingleItem } from "@/types/single-item";
 import { ApiFrontend } from "@/services/api/ApiFrontend"; // Brug denne klasse til at hente data
 import { Section } from "@/components/Section";
 import { User } from "@/types/api";
@@ -52,12 +51,12 @@ export const ProfileSection = ({ user }: ProfileSectionProps) => {
 
   // Mock data - erstat dette med userdata, når det virker
   const userMock = {
-    name: "Mikkel",
-    age: 26,
+    name: ApiFrontend.currentUser?.name ?? "Mikkel",
+    age: ApiFrontend.currentUser?.age ?? 26,
     semester: "4. semester",
     title: "Front-End Developer",
     profileImage: "hani/avatar.jpg", // Skift til rigtig URL
-    documentId: "specific-user-id", // Skift dette ID, hvis nødvendigt
+    id: ApiFrontend.currentUser?.id ?? undefined, // Skift dette ID, hvis nødvendigt
   };
 
   // Betingelse: Kun vis chatten for specifikke brugere

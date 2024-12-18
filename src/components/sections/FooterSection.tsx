@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import styles from "./FooterSection.module.css";
@@ -9,9 +11,9 @@ export const FooterSection = () => {
       {
         ApiFrontend.currentUser ?
           <>
-            <Link href='/#overview'><p>Overblik</p></Link>
-            <Link href='/#bookings'><p>Bookinger</p></Link>
-            <Link href='/#chat'><p>Chat</p></Link>
+            <Link href='/'><p>Overblik</p></Link>
+            <Link href='/'><p>Bookinger</p></Link>
+            {/* <Link href='/#chat'><p>Chat</p></Link> */}
           </> :
           <>
             <Link href='/'><p>Intro</p></Link>

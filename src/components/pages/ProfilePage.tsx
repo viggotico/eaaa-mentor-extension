@@ -1,3 +1,5 @@
+'use client'
+
 import { Page } from "../Page";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import { SingleItem } from "@/types/single-item";

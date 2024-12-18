@@ -1,3 +1,5 @@
+'use client'
+
 import { ApiFrontend } from "@/services/api/ApiFrontend"; // brug dette class til at få den nuværende bruger's data fx ApiFrontend.currentUser eller til at kalde på backend API's fx ApiFrontend.users.getAll()
 import { Section } from "@/components/Section";
 import styles from "./CalenderSubmit.module.css"; // brug dette object til css

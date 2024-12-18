@@ -1,3 +1,5 @@
+'use client'
+
 import { Page } from "../Page";
 import { FindAMentorSection } from "../sections/FindAMentorSection";
 

@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { ApiFrontend } from "@/services/api/ApiFrontend";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -13,9 +15,9 @@ export const NavBar = () => {
             {
               ApiFrontend.currentUser ?
                 <>
-                  <span><Link href='/#overview'><p>Overblik</p></Link><ArrowForwardIosIcon /></span>
-                  <span><Link href='/#bookings'><p>Bookinger</p></Link><ArrowForwardIosIcon /></span>
-                  <span><Link href='/#chat'><p>Chat</p></Link><ArrowForwardIosIcon /></span>
+                  <span><Link href='/'><p>Overblik</p></Link><ArrowForwardIosIcon /></span>
+                  <span><Link href='/'><p>Bookinger</p></Link><ArrowForwardIosIcon /></span>
+                  {/* <span><Link href='/#chat'><p>Chat</p></Link><ArrowForwardIosIcon /></span> */}
                 </> :
                 <>
                   <span><Link href='/'><p>Intro</p></Link><ArrowForwardIosIcon /></span>

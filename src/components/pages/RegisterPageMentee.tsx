@@ -1,3 +1,5 @@
+'use client'
+
 import { Page } from "../Page";
 import { RegisterSection } from "../sections/RegisterSection";
 
