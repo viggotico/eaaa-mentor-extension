@@ -5,35 +5,52 @@ import { ApiFrontend } from "@/services/api/ApiFrontend";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import styles from "./NavBar.module.css";
 
+interface NavLinkProps {
+  children: React.ReactNode;
+  href: string;
+}
+
+const NavLink = ({ children, href }: NavLinkProps) => {
+  const onClick = (e: any) => {
+    // e?.preventDefault();
+    const navWrapper = document?.getElementById('nav');
+    if (!navWrapper) return;
+    setTimeout(() => {
+      navWrapper.style.display = 'none';
+    }, 700);
+  }
+  return <Link href={href} onClick={onClick}>{children}</Link>;
+}
+
 export const NavBar = () => {
   return <div id='nav' className={styles.navWrapper}>
     <nav>
       <ul>
         <li>
-          <span><Link href='/'><strong>Hjem</strong></Link><ArrowForwardIosIcon /></span>
+          <span><NavLink href='/'><strong>Hjem</strong></NavLink><ArrowForwardIosIcon /></span>
           <div>
             {
               ApiFrontend.currentUser ?
                 <>
-                  <span><Link href='/'><p>Overblik</p></Link><ArrowForwardIosIcon /></span>
-                  <span><Link href='/'><p>Bookinger</p></Link><ArrowForwardIosIcon /></span>
-                  {/* <span><Link href='/#chat'><p>Chat</p></Link><ArrowForwardIosIcon /></span> */}
+                  <span><NavLink href='/'><p>Overblik</p></NavLink><ArrowForwardIosIcon /></span>
+                  <span><NavLink href='/'><p>Bookinger</p></NavLink><ArrowForwardIosIcon /></span>
+                  {/* <span><NavLink href='/#chat'><p>Chat</p></NavLink><ArrowForwardIosIcon /></span> */}
                 </> :
                 <>
-                  <span><Link href='/'><p>Intro</p></Link><ArrowForwardIosIcon /></span>
-                  <span><Link href='/'><p>Om os</p></Link><ArrowForwardIosIcon /></span>
+                  <span><NavLink href='/'><p>Intro</p></NavLink><ArrowForwardIosIcon /></span>
+                  <span><NavLink href='/'><p>Om os</p></NavLink><ArrowForwardIosIcon /></span>
                 </>
             }
           </div>
         </li>
         <li>
-          <span><Link href='/about-mentorship'><strong>Om mentorordningen</strong></Link><ArrowForwardIosIcon /></span>
+          <span><NavLink href='/about-mentorship'><strong>Om mentorordningen</strong></NavLink><ArrowForwardIosIcon /></span>
           <div>
-            <span><Link href='/about-mentorship#message'><p>Budskab</p></Link><ArrowForwardIosIcon /></span>
+            <span><NavLink href='/about-mentorship#message'><p>Budskab</p></NavLink><ArrowForwardIosIcon /></span>
             {
               ApiFrontend.currentUser ?
                 <>
-                  <span><Link href='/#about-us'><p>Om os</p></Link><ArrowForwardIosIcon /></span>
+                  <span><NavLink href='/#about-us'><p>Om os</p></NavLink><ArrowForwardIosIcon /></span>
                 </> : <></>
             }
           </div>
@@ -41,21 +58,21 @@ export const NavBar = () => {
         <li>
           <span><strong>Mentee</strong><ArrowForwardIosIcon /></span>
           <div>
-            <span><Link href='/mentee#support'><p>Vejledning</p></Link><ArrowForwardIosIcon /></span>
-            <span><Link href='/mentor#find-mentor'><p>Find en mentor</p></Link><ArrowForwardIosIcon /></span>
+            <span><NavLink href='/mentee#support'><p>Vejledning</p></NavLink><ArrowForwardIosIcon /></span>
+            <span><NavLink href='/mentor#find-mentor'><p>Find en mentor</p></NavLink><ArrowForwardIosIcon /></span>
           </div>
         </li>
         <li>
           <span><strong>Mentor</strong></span>
           <div>
-            <span><Link href='/mentor#find-mentor'><p>Find en mentor</p></Link><ArrowForwardIosIcon /></span>
+            <span><NavLink href='/mentor#find-mentor'><p>Find en mentor</p></NavLink><ArrowForwardIosIcon /></span>
           </div>
         </li>
         <li>
           <span>
-            <Link href={ApiFrontend.currentUser ? '/logout' : '/login'}>
+            <NavLink href={ApiFrontend.currentUser ? '/logout' : '/login'}>
                 <strong>{ApiFrontend.currentUser ? 'Log ud' : 'Login'}</strong>
-            </Link>
+            </NavLink>
             <ArrowForwardIosIcon />
           </span>
         </li>
