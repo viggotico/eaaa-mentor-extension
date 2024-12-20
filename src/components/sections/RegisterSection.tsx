@@ -29,6 +29,7 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
   const oppositeType = type === 'Mentor' ? 'Mentee' : 'Mentor';
   const [isValidCode, setIsValidCode] = useState<boolean>(isMentor ? false : true);
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
+  const [submitButtonLabel, setSubmitButtonLabel] = useState('Opret konto');
 
   useEffect(() => {
     setErrorMsg(RegisterError.msg);
@@ -71,6 +72,7 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
           </Form>
           :
           <Form action={async (formData) => {
+            setSubmitButtonLabel('Vent venligst...');
             const file = formData.get('files') as Blob;
             const email = formData.get('email') as string;
             const name = formData.get('fname') as string;
@@ -137,6 +139,7 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               }
             }).catch(err => {
               RegisterError.msg = err.message;
+              setSubmitButtonLabel('Opret konto');
               alert(err.message);
             });
           }}>
@@ -216,7 +219,6 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               type='text'
               name='subject'
               label='Fag'
-              required={true}
               placeholder='Frontend'
             />
             {
@@ -304,12 +306,13 @@ export const RegisterSection = ({ type }: LoginSectionProps) => {
               name='passwordrepeat'
               label='Gentag adgangskode'
               placeholder='••••••••••'
+              description="Mindst 4 tegn."
               required={true}
               min='4'
               max='50'
             />
             <div className='group-row'>
-              <InputButtons type='submit' label='Opret konto' />
+              <InputButtons type='submit' label={submitButtonLabel} />
             </div>
             {errorMsg ? <p style={{ color: 'rgb(179, 56, 56)' }}>{errorMsg}</p> : <></>}
           </Form>
