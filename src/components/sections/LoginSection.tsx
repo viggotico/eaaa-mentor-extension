@@ -21,6 +21,8 @@ class LoginError {
 
 export const LoginSection = ({ type }: LoginSectionProps) => {
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined);
+  const [submitButtonLabel, setSubmitButtonLabel] = useState('Login');
+
   useEffect(() => {
     setErrorMsg(LoginError.msg)
     if (!LoginError.msg) return;
@@ -36,6 +38,7 @@ export const LoginSection = ({ type }: LoginSectionProps) => {
       <h1>{type} login</h1>
       <p>Har du ikke en bruger? <Link href={`/register/${type.toLowerCase()}`}><u>Opret dig</u></Link>.</p>
       <Form action={async (formData) => {
+        setSubmitButtonLabel('Vent venligst...');
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
         await ApiFrontend.auth.login(email, password)
@@ -50,6 +53,7 @@ export const LoginSection = ({ type }: LoginSectionProps) => {
             }
           }).catch(err => {
             LoginError.msg = err.message;
+            setSubmitButtonLabel('Login');
             alert(err.message);
           });
       }}>
@@ -68,7 +72,7 @@ export const LoginSection = ({ type }: LoginSectionProps) => {
           required={true}
         />
         <div className='group-row'>
-          <InputButtons type='submit' label='Login' />
+          <InputButtons type='submit' label={submitButtonLabel} />
           <InputButtons type='default' label='Glemt adgangskode' onClick={() => {}} />
         </div>
         {errorMsg ? <p style={{ color: 'rgb(179, 56, 56)' }}>{errorMsg}</p> : <></>}
